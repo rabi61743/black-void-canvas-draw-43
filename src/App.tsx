@@ -47,13 +47,7 @@ const ProtectedRoute = ({ children, allowedRoles }: { children: JSX.Element; all
   return children;
 };
 
-const AuthenticatedLayout = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated } = useAuth();
-  
-  if (!isAuthenticated) {
-    return <>{children}</>;
-  }
-
+const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SidebarProvider defaultOpen={true}>
       <div className="min-h-screen flex w-full bg-gray-50">
@@ -80,37 +74,37 @@ function App() {
       <Router>
         <div className="min-h-screen">
           <Routes>
-            {/* Public routes - no sidebar */}
+            {/* Public routes without sidebar */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
 
-            {/* Protected routes - with sidebar */}
+            {/* All other routes with sidebar - accessible to everyone */}
             <Route path="/*" element={
-              <AuthenticatedLayout>
+              <MainLayout>
                 <Routes>
-                  <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
-                  <Route path="/committee" element={<ProtectedRoute><CommitteePage /></ProtectedRoute>} />
-                  <Route path="/committee/create" element={<ProtectedRoute><CommitteePage /></ProtectedRoute>} />
-                  <Route path="/committees/:id" element={<ProtectedRoute><CommitteeDetail /></ProtectedRoute>} />
-                  <Route path="/specifications" element={<ProtectedRoute><Specifications /></ProtectedRoute>} />
-                  <Route path="/specification/:id" element={<ProtectedRoute><SpecificationManagement /></ProtectedRoute>} />
-                  <Route path="/tenders" element={<ProtectedRoute><TendersPage /></ProtectedRoute>} />
-                  <Route path="/procurement-plan" element={<ProtectedRoute><ProcurementPlanPage /></ProtectedRoute>} />
-                  <Route path="/notifications" element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
-                  <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
-                  <Route path="/users" element={<ProtectedRoute><UserList /></ProtectedRoute>} />
+                  <Route path="/" element={<Index />} />
+                  <Route path="/committee" element={<CommitteePage />} />
+                  <Route path="/committee/create" element={<CommitteePage />} />
+                  <Route path="/committees/:id" element={<CommitteeDetail />} />
+                  <Route path="/specifications" element={<Specifications />} />
+                  <Route path="/specification/:id" element={<SpecificationManagement />} />
+                  <Route path="/tenders" element={<TendersPage />} />
+                  <Route path="/procurement-plan" element={<ProcurementPlanPage />} />
+                  <Route path="/notifications" element={<NotificationsPage />} />
+                  <Route path="/settings" element={<SettingsPage />} />
+                  <Route path="/users" element={<UserList />} />
                   <Route path="/employee-details" element={<EmployeeDetailList />} />
-                  <Route path="/employees/edit/:userId" element={<ProtectedRoute><EmployeeEdit /></ProtectedRoute>} />
-                  <Route path="/committees/edit/:committeeId" element={<ProtectedRoute><CommitteeUpdate /></ProtectedRoute>} />
-                  <Route path="/role-hierarchy" element={<ProtectedRoute><RoleHierarchyTree /></ProtectedRoute>} />
-                  <Route path="/complaints" element={<ProtectedRoute><ExternalAgency /></ProtectedRoute>} />
-                  <Route path="/project/:id" element={<ProtectedRoute><ProjectDiscussion /></ProtectedRoute>} />
-                  <Route path="/create-user" element={<ProtectedRoute><CreateUser /></ProtectedRoute>} />
+                  <Route path="/employees/edit/:userId" element={<EmployeeEdit />} />
+                  <Route path="/committees/edit/:committeeId" element={<CommitteeUpdate />} />
+                  <Route path="/role-hierarchy" element={<RoleHierarchyTree />} />
+                  <Route path="/complaints" element={<ExternalAgency />} />
+                  <Route path="/project/:id" element={<ProjectDiscussion />} />
+                  <Route path="/create-user" element={<CreateUser />} />
                   <Route path="/created-user" element={<PrivateRoute component={CreatedUserList} />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
-              </AuthenticatedLayout>
+              </MainLayout>
             } />
           </Routes>
           <Toaster />
