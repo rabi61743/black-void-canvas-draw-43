@@ -1,8 +1,8 @@
+
 import { useState, useEffect } from 'react';
 import { MockDatabase } from '@/services/mockDb/MockDatabase';
-import { initializeDb } from '@/services/mockDb/initializeDb';
 
-export function useMockDb<T>(collection: string, query?: (item: T) => boolean) {
+export function useMockDb<T extends { id?: number | string; _id?: string }>(collection: string, query?: (item: T) => boolean) {
   const [data, setData] = useState<T[]>([]);
   const db = MockDatabase.getInstance();
 
@@ -28,7 +28,7 @@ export function useMockDb<T>(collection: string, query?: (item: T) => boolean) {
     };
   }, [collection, query]);
 
-  const create = (item: Omit<T, 'id'>) => {
+  const create = (item: Omit<T, 'id' | '_id'>) => {
     const result = db.create(collection as any, item);
     
     // Update local state immediately

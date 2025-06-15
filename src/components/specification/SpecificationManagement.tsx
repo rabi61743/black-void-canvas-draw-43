@@ -1,190 +1,211 @@
 
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Card } from "@/components/ui/card";
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import SpecificationSubmission from "./SpecificationSubmission";
 import ReviewScheduler from "./ReviewScheduler";
-import ReviewMinutes from "./ReviewMinutes";
-import DocumentApproval from "./DocumentApproval";
-import VersionHistory from "./VersionHistory";
 import CommitteeFormation from "./CommitteeFormation";
-import TaskManager from "./TaskManager";
 import ReviewTracker from "./ReviewTracker";
-import type { SpecificationDocument, ReviewSession, DocumentVersion, TaskAssignment } from "@/types/specification";
-import { 
-  mockSpecifications, 
-  mockReviews, 
-  getSpecificationById, 
-  getReviewBySpecificationId,
-  getVersionHistory,
-} from "@/mock/specificationData";
+import TaskManager from "./TaskManager";
+import type { SpecificationDocument, ReviewSession, ReviewTracking } from "@/types/specification";
 
 const SpecificationManagement = () => {
-  const { id } = useParams();
-  const [activeTab, setActiveTab] = useState("committee");
-  const [currentSpecification, setCurrentSpecification] = useState<SpecificationDocument | null>(null);
-  const [currentReview, setCurrentReview] = useState<ReviewSession | null>(null);
   const { toast } = useToast();
-
-  useEffect(() => {
-    if (id) {
-      const spec = getSpecificationById(Number(id));
-      if (spec) {
-        setCurrentSpecification(spec);
-        const associatedReview = getReviewBySpecificationId(spec.id);
-        if (associatedReview) {
-          setCurrentReview(associatedReview);
-        }
-      }
-    }
-  }, [id]);
+  const [specification, setSpecification] = useState<SpecificationDocument | null>(null);
+  const [review, setReview] = useState<ReviewSession | null>(null);
+  const [activeTab, setActiveTab] = useState("submission");
 
   const handleSpecificationUpdate = (spec: SpecificationDocument) => {
-    setCurrentSpecification(spec);
+    setSpecification(spec);
+    setActiveTab("committee");
     toast({
       title: "Specification Updated",
-      description: "The specification has been successfully updated.",
+      description: "Moving to committee formation.",
     });
   };
 
-  const handleTaskAssignment = (task: TaskAssignment) => {
-    if (currentSpecification) {
+  const handleReviewUpdate = (reviewSession: ReviewSession) => {
+    setReview(reviewSession);
+    
+    if (specification) {
+      const newTracking: ReviewTracking = {
+        id: Date.now(),
+        documentVersion: specification.version,
+        reviewDate: reviewSession.scheduledDate,
+        status: "pending",
+        comments: [],
+        nextReviewDate: reviewSession.nextReviewDate || "",
+        notifiedMembers: reviewSession.reviewers.map(reviewer => ({
+          memberId: reviewer.id,
+          notified: true,
+          notificationMethod: 'both' as const,
+        })),
+      };
+
       const updatedSpec = {
-        ...currentSpecification,
-        tasks: [...(currentSpecification.tasks || []), task],
+        ...specification,
+        reviewTracking: [...(specification.reviewTracking || []), newTracking],
       };
-      setCurrentSpecification(updatedSpec);
-      toast({
-        title: "Task Assigned",
-        description: `Task "${task.title}" has been assigned successfully.`,
-      });
-      // Mock notification sending
-      console.log(`Sending ${task.notificationType} notification to member ${task.assignedTo}`);
+      setSpecification(updatedSpec);
     }
+
+    setActiveTab("tracking");
+    toast({
+      title: "Review Scheduled",
+      description: "Review has been scheduled and team notified.",
+    });
   };
 
-  const handleReviewUpdate = (review: ReviewSession) => {
-    setCurrentReview(review);
-    if (currentSpecification) {
-      const updatedSpec: SpecificationDocument = {
-        ...currentSpecification,
-        reviewTracking: [
-          ...(currentSpecification.reviewTracking || []),
-          {
-            id: Date.now(),
-            documentVersion: currentSpecification.version,
-            reviewDate: review.scheduledDate,
-            status: review.status,
-            comments: review.comments,
-            nextReviewDate: review.nextReviewDate,
-            notifiedMembers: review.reviewers.map(reviewer => ({
-              memberId: reviewer.id,
-              notified: true,
-              notificationMethod: "both" as const,
-              acknowledgedAt: undefined,
-            })),
-          },
-        ],
-      };
-      setCurrentSpecification(updatedSpec);
+  const getTabStatus = (tab: string) => {
+    switch (tab) {
+      case "submission":
+        return specification ? "completed" : "pending";
+      case "committee":
+        return specification?.committeeFormationLetter ? "completed" : specification ? "pending" : "disabled";
+      case "review":
+        return review ? "completed" : specification ? "pending" : "disabled";
+      case "tracking":
+        return review ? "active" : "disabled";
+      case "tasks":
+        return specification ? "active" : "disabled";
+      default:
+        return "disabled";
     }
-    toast({
-      title: "Review Updated",
-      description: "The review session has been successfully updated.",
-    });
   };
 
   return (
-    <div className="container mx-auto pt-20 px-4 min-h-screen">
-      <Card className="max-w-5xl mx-auto bg-white/80 backdrop-blur-sm shadow-lg p-6 rounded-xl">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid grid-cols-7 gap-4 p-1 bg-muted/20 rounded-lg">
-            <TabsTrigger value="committee" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Committee
-            </TabsTrigger>
-            <TabsTrigger value="tasks" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Tasks
-            </TabsTrigger>
-            <TabsTrigger value="submission" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Submission
-            </TabsTrigger>
-            <TabsTrigger value="versions" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Versions
-            </TabsTrigger>
-            <TabsTrigger value="review" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Review
-            </TabsTrigger>
-            <TabsTrigger value="tracking" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Tracking
-            </TabsTrigger>
-            <TabsTrigger value="approval" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Approval
-            </TabsTrigger>
-          </TabsList>
+    <div className="container mx-auto px-4 py-6">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold">Specification Management</h1>
+        <p className="text-gray-600 mt-2">
+          Manage the complete specification lifecycle from submission to approval
+        </p>
+      </div>
 
-          <div className="mt-6 bg-white rounded-lg shadow-sm p-6 animate-fadeIn">
-            <TabsContent value="committee">
-              <CommitteeFormation
-                specification={currentSpecification}
-                onSpecificationUpdate={handleSpecificationUpdate}
-              />
-            </TabsContent>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-5">
+          <TabsTrigger value="submission" className="flex items-center gap-2">
+            Submission
+            <Badge variant={getTabStatus("submission") === "completed" ? "default" : "outline"} className="ml-1">
+              {getTabStatus("submission") === "completed" ? "✓" : "1"}
+            </Badge>
+          </TabsTrigger>
+          <TabsTrigger 
+            value="committee" 
+            disabled={getTabStatus("committee") === "disabled"}
+            className="flex items-center gap-2"
+          >
+            Committee
+            <Badge variant={getTabStatus("committee") === "completed" ? "default" : "outline"} className="ml-1">
+              {getTabStatus("committee") === "completed" ? "✓" : "2"}
+            </Badge>
+          </TabsTrigger>
+          <TabsTrigger 
+            value="review" 
+            disabled={getTabStatus("review") === "disabled"}
+            className="flex items-center gap-2"
+          >
+            Review
+            <Badge variant={getTabStatus("review") === "completed" ? "default" : "outline"} className="ml-1">
+              {getTabStatus("review") === "completed" ? "✓" : "3"}
+            </Badge>
+          </TabsTrigger>
+          <TabsTrigger 
+            value="tracking" 
+            disabled={getTabStatus("tracking") === "disabled"}
+            className="flex items-center gap-2"
+          >
+            Tracking
+            <Badge variant={getTabStatus("tracking") === "active" ? "default" : "outline"} className="ml-1">
+              4
+            </Badge>
+          </TabsTrigger>
+          <TabsTrigger 
+            value="tasks" 
+            disabled={getTabStatus("tasks") === "disabled"}
+            className="flex items-center gap-2"
+          >
+            Tasks
+            <Badge variant={getTabStatus("tasks") === "active" ? "default" : "outline"} className="ml-1">
+              5
+            </Badge>
+          </TabsTrigger>
+        </TabsList>
 
-            <TabsContent value="tasks">
-              <TaskManager
-                specification={currentSpecification}
-                onTaskAssignment={handleTaskAssignment}
-              />
-            </TabsContent>
-
-            <TabsContent value="submission">
+        <TabsContent value="submission" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Submit Specification Document</CardTitle>
+            </CardHeader>
+            <CardContent>
               <SpecificationSubmission
-                specification={currentSpecification}
+                specification={specification}
                 onSpecificationUpdate={handleSpecificationUpdate}
               />
-            </TabsContent>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-            <TabsContent value="versions">
-              {currentSpecification?.versionHistory ? (
-                <VersionHistory
-                  versions={currentSpecification.versionHistory}
-                  onCompareVersions={(v1, v2) => console.log("Comparing versions:", v1, v2)}
-                  onViewVersion={(v) => console.log("Viewing version:", v)}
-                />
-              ) : (
-                <div className="text-center py-8 text-gray-500">
-                  No version history available
-                </div>
-              )}
-            </TabsContent>
+        <TabsContent value="committee" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Committee Formation</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CommitteeFormation
+                specification={specification}
+                onSpecificationUpdate={setSpecification}
+              />
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-            <TabsContent value="review">
+        <TabsContent value="review" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Schedule Review</CardTitle>
+            </CardHeader>
+            <CardContent>
               <ReviewScheduler
-                specification={currentSpecification}
-                review={currentReview}
+                specification={specification}
+                review={review}
                 onReviewUpdate={handleReviewUpdate}
               />
-            </TabsContent>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-            <TabsContent value="tracking">
+        <TabsContent value="tracking" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Review Tracking</CardTitle>
+            </CardHeader>
+            <CardContent>
               <ReviewTracker
-                specification={currentSpecification}
-                review={currentReview}
+                specification={specification}
+                review={review}
               />
-            </TabsContent>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-            <TabsContent value="approval">
-              <DocumentApproval
-                specification={currentSpecification}
-                review={currentReview}
-                onSpecificationUpdate={handleSpecificationUpdate}
+        <TabsContent value="tasks" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Task Management</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <TaskManager
+                specification={specification}
+                onSpecificationUpdate={setSpecification}
               />
-            </TabsContent>
-          </div>
-        </Tabs>
-      </Card>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

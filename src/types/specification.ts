@@ -27,6 +27,14 @@ export interface Letter {
   attachments?: any[];
 }
 
+export interface CommitteeFormationLetter {
+  id: number;
+  referenceNumber: string;
+  issueDate: string;
+  content: string;
+  attachments?: any[];
+}
+
 export interface SpecificationDocument {
   id: number;
   procurement_plan: string;
@@ -43,7 +51,7 @@ export interface SpecificationDocument {
   versionHistory: DocumentVersion[];
   tasks?: TaskAssignment[];
   reviewTracking?: ReviewTracking[];
-  committeeFormationLetter?: Letter;
+  committeeFormationLetter?: CommitteeFormationLetter;
 }
 
 export interface ReviewSession {
