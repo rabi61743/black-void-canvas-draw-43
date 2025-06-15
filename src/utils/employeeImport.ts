@@ -30,8 +30,10 @@ export const processEmployeeFile = async (file: File): Promise<Partial<ExcelEmpl
 };
 
 export const convertToEmployee = (row: Partial<ExcelEmployeeRow>): Omit<Employee, 'id'> => {
+  const employeeId = String(row.employeeId || '');
   return {
-    employeeId: String(row.employeeId || ''),
+    employee_id: employeeId,
+    employeeId: employeeId, // Add for compatibility
     name: String(row.name || ''),
     email: String(row.email || ''),
     phone: String(row.phone || ''),

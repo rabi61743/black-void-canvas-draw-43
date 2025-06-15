@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,7 +22,7 @@ const EmployeeEdit = () => {
   const [formData, setFormData] = useState({
     name: employee?.name || "",
     email: employee?.email || "",
-    role: employee?.role || "",
+    role: employee?.role?.id?.toString() || "",
     department: employee?.department || "",
     phoneNumber: employee?.phoneNumber || "",
     designation: employee?.designation || "",
@@ -68,7 +69,14 @@ const EmployeeEdit = () => {
     if (!userId) return;
 
     setLoading(true);
-    const success = await updateUser(userId, formData);
+    
+    // Convert role to number for API call
+    const updateData = {
+      ...formData,
+      role: parseInt(formData.role) || 0
+    };
+    
+    const success = await updateUser(userId, updateData);
     setLoading(false);
 
     if (success) {
@@ -120,13 +128,13 @@ const EmployeeEdit = () => {
                 <SelectValue placeholder="Select a role" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="admin">Admin</SelectItem>
-                <SelectItem value="procurement_officer">Procurement Officer</SelectItem>
-                <SelectItem value="committee_member">Committee Member</SelectItem>
-                <SelectItem value="evaluator">Evaluator</SelectItem>
-                <SelectItem value="bidder">Bidder</SelectItem>
-                <SelectItem value="complaint_manager">Complaint Manager</SelectItem>
-                <SelectItem value="project_manager">Project Manager</SelectItem>
+                <SelectItem value="1">Admin</SelectItem>
+                <SelectItem value="2">Procurement Officer</SelectItem>
+                <SelectItem value="3">Committee Member</SelectItem>
+                <SelectItem value="4">Evaluator</SelectItem>
+                <SelectItem value="5">Bidder</SelectItem>
+                <SelectItem value="6">Complaint Manager</SelectItem>
+                <SelectItem value="7">Project Manager</SelectItem>
               </SelectContent>
             </Select>
           </div>

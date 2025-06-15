@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -47,6 +46,7 @@ const SpecificationSubmission = ({
     // Mock submission - in real app, this would call an API
     const newSpecification: SpecificationDocument = {
       id: Date.now(),
+      procurement_plan: 1, // Add required field
       title,
       description,
       version: 1,

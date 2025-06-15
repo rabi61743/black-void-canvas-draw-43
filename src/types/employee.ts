@@ -16,6 +16,7 @@ export interface Employee {
 // User interface for auth system
 export interface User {
   _id: string;
+  id: string; // Add id for compatibility
   employee_id: string;
   employeeId: string; // alias for compatibility
   name: string;
@@ -27,4 +28,16 @@ export interface User {
   isActive: boolean;
   otpEnabled: boolean;
   permissions: any[];
+}
+
+// Update user data interface for editing
+export interface UpdateUserData {
+  name: string;
+  email: string;
+  role: number; // Role ID as number
+  department: string;
+  phoneNumber: string;
+  designation: string;
+  isActive: boolean;
+  otpEnabled: boolean;
 }

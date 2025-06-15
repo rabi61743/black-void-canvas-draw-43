@@ -163,6 +163,7 @@ const TenderForm = ({ onClose, onCreateTender, tenderId }: TenderFormProps) => {
       text: newComment,
       author: "Current User",
       createdAt: new Date().toISOString(),
+      timestamp: new Date().toISOString(), // Add required timestamp field
     };
     setComments([...comments, newCommentObj]);
     setNewComment("");

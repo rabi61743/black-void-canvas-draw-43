@@ -1,193 +1,109 @@
-
-import { Committee, CommitteeMember, CommitteeTask, SpecificationReview } from "@/types/committee";
-
-export const mockMembers: CommitteeMember[] = [
-  {
-    id: "1",
-    employeeId: "EMP001",
-    name: "John Smith",
-    email: "john.smith@company.com",
-    phone: "+1234567890",
-    role: "chairperson",
-    department: "Technical",
-    tasks: [],
-  },
-  {
-    id: "2",
-    employeeId: "EMP002",
-    name: "Sarah Johnson",
-    email: "sarah.j@company.com",
-    phone: "+1234567891",
-    role: "secretary",
-    department: "Procurement",
-    tasks: [],
-  },
-  {
-    id: "3",
-    employeeId: "EMP003",
-    name: "Mike Wilson",
-    email: "mike.w@company.com",
-    phone: "+1234567892",
-    role: "member",
-    department: "Finance",
-    tasks: [],
-  },
-  {
-    id: "4",
-    employeeId: "EMP004",
-    name: "Emily Davis",
-    email: "emily.d@company.com",
-    phone: "+1234567893",
-    role: "chairperson",
-    department: "Legal",
-    tasks: [],
-  },
-  {
-    id: "5",
-    employeeId: "EMP005",
-    name: "Robert Chen",
-    email: "robert.c@company.com",
-    phone: "+1234567894",
-    role: "member",
-    department: "IT",
-    tasks: [],
-  }
-];
-
-export const mockTasks: CommitteeTask[] = [
-  {
-    id: 1,
-    title: "Initial Specification Draft",
-    description: "Prepare initial draft of technical specifications",
-    assignedTo: 1,
-    dueDate: "2024-04-15",
-    status: "in_progress",
-    attachments: [],
-    comments: ["First draft completed", "Pending review from technical team"],
-  },
-  {
-    id: 2,
-    title: "Cost Analysis",
-    description: "Analyze and document cost implications",
-    assignedTo: 3,
-    dueDate: "2024-04-20",
-    status: "pending",
-    attachments: [],
-    comments: [],
-  },
-  {
-    id: 3,
-    title: "Documentation Review",
-    description: "Review and finalize all documentation",
-    assignedTo: 2,
-    dueDate: "2024-04-25",
-    status: "pending",
-    attachments: [],
-    comments: [],
-  },
-  {
-    id: 4,
-    title: "Legal Compliance Check",
-    description: "Review legal compliance of specifications",
-    assignedTo: 4,
-    dueDate: "2024-04-30",
-    status: "completed",
-    attachments: [],
-    comments: ["All legal requirements met"],
-  },
-  {
-    id: 5,
-    title: "Technical Review",
-    description: "Review technical aspects of specifications",
-    assignedTo: 5,
-    dueDate: "2024-05-05",
-    status: "in_progress",
-    attachments: [],
-    comments: ["Technical review in progress"],
-  }
-];
-
-export const mockReviews: SpecificationReview[] = [
-  {
-    id: 1,
-    committeeId: 1,
-    scheduledDate: "2024-04-10",
-    actualDate: "2024-04-10",
-    minutes: "Initial review completed. Major points discussed:\n1. Technical specifications alignment\n2. Budget considerations\n3. Timeline feasibility",
-    status: "under_review",
-    reviewers: mockMembers.slice(0, 3),
-    documents: [],
-    comments: [
-      "Technical specifications need more detail",
-      "Budget estimates to be revised",
-    ],
-  },
-  {
-    id: 2,
-    committeeId: 1,
-    scheduledDate: "2024-04-20",
-    status: "draft",
-    reviewers: mockMembers.slice(0, 2),
-    documents: [],
-    comments: [],
-  },
-  {
-    id: 3,
-    committeeId: 2,
-    scheduledDate: "2024-05-01",
-    actualDate: "2024-05-01",
-    minutes: "Detailed technical review session. Key points:\n1. Security requirements\n2. Performance metrics\n3. Integration specifications",
-    status: "approved",
-    reviewers: mockMembers.slice(2, 5),
-    documents: [],
-    comments: ["All technical requirements approved"],
-  }
-];
+import type { Committee, CommitteeMember } from "@/types/committee";
 
 export const mockCommittees: Committee[] = [
   {
     _id: "1",
-    name: "Network Infrastructure Upgrade Committee",
-    formation_date: "2024-03-01",
-    purpose: "Review and prepare specifications for network infrastructure upgrade project",
-    committee_type: "technical",
-    procurement_plan: 1,
-    approvalStatus: "pending",
-  },
-  {
-    _id: "2",
-    name: "Data Center Equipment Committee",
-    formation_date: "2024-03-15",
-    purpose: "Prepare specifications for new data center equipment",
-    committee_type: "procurement",
-    procurement_plan: 2,
-    approvalStatus: "approved",
-  },
-  {
-    _id: "3",
-    name: "Software Licensing Committee",
-    formation_date: "2024-02-28",
-    purpose: "Review and standardize software licensing requirements",
+    name: "Technical Evaluation Committee",
+    purpose: "Evaluate technical specifications and proposals",
     committee_type: "evaluation",
-    procurement_plan: 3,
-    approvalStatus: "draft",
+    procurement_plan: 1,
+    formation_date: "2024-01-15",
+    specification_submission_date: "2024-02-01",
+    review_date: "2024-02-15",
+    schedule: "Weekly meetings every Tuesday",
+    should_notify: true,
+    formationLetterURL: "/documents/tec-formation-letter.pdf",
+    createdBy: {
+      _id: "1",
+      name: "Admin User",
+      email: "admin@ntc.net.np",
+      role: "admin",
+      employeeId: "EMP001"
+    },
+    createdAt: "2024-01-15T08:00:00Z",
+    updatedAt: "2024-01-15T08:00:00Z",
+    membersList: [
+      {
+        _id: "1",
+        employeeId: "EMP001",
+        name: "John Smith",
+        role: "chairperson",
+        email: "john.smith@ntc.net.np",
+        department: "Technical",
+        designation: "Senior Engineer"
+      },
+      {
+        _id: "2",
+        employeeId: "EMP002",
+        name: "Sarah Johnson",
+        role: "member",
+        email: "sarah.j@ntc.net.np",
+        department: "Procurement",
+        designation: "Procurement Officer"
+      },
+      {
+        _id: "3",
+        employeeId: "EMP003",
+        name: "Raj Sharma",
+        role: "secretary",
+        email: "raj.sharma@ntc.net.np",
+        department: "Finance",
+        designation: "Finance Manager"
+      }
+    ],
+    approvalStatus: "approved"
+  }
+];
+
+export const mockCommitteeMembers: CommitteeMember[] = [
+  {
+    employeeId: "TEC001",
+    name: "John Doe",
+    email: "john.doe@example.com",
+    department: "Engineering",
+    phone: "123-456-7890",
+    role: "chairperson",
+    designation: "Senior Engineer",
+    tasks: ["Review specifications", "Approve designs"]
   },
   {
-    _id: "4",
-    name: "Security Systems Evaluation Committee",
-    formation_date: "2024-03-20",
-    purpose: "Evaluate and specify requirements for new security systems",
-    committee_type: "security",
-    procurement_plan: 4,
-    approvalStatus: "pending",
+    employeeId: "TEC002",
+    name: "Jane Smith",
+    email: "jane.smith@example.com",
+    department: "Procurement",
+    phone: "987-654-3210",
+    role: "member",
+    designation: "Procurement Officer",
+    tasks: ["Prepare tender documents", "Evaluate bids"]
   },
   {
-    _id: "5",
-    name: "Cloud Infrastructure Migration Committee",
-    formation_date: "2024-03-10",
-    purpose: "Plan and specify requirements for cloud infrastructure migration",
-    committee_type: "technical",
-    procurement_plan: 5,
-    approvalStatus: "approved",
+    employeeId: "TEC003",
+    name: "Alice Johnson",
+    email: "alice.johnson@example.com",
+    department: "Legal",
+    phone: "555-123-4567",
+    role: "member",
+    designation: "Legal Advisor",
+    tasks: ["Ensure compliance", "Review contracts"]
+  },
+  {
+    employeeId: "TEC004",
+    name: "Bob Williams",
+    email: "bob.williams@example.com",
+    department: "Finance",
+    phone: "111-222-3333",
+    role: "member",
+    designation: "Finance Manager",
+    tasks: ["Manage budget", "Approve payments"]
+  },
+  {
+    employeeId: "TEC005",
+    name: "Charlie Brown",
+    email: "charlie.brown@example.com",
+    department: "Technical",
+    phone: "444-555-6666",
+    role: "member",
+    designation: "System Analyst",
+    tasks: ["Analyze system requirements", "Design solutions"]
   }
 ];

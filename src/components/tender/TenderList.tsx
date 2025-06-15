@@ -190,7 +190,7 @@ const TenderList = () => {
       {showCreateForm && (
         <TenderForm 
           onClose={() => setShowCreateForm(false)} 
-          onSubmit={handleCreateTender}
+          onCreateTender={handleCreateTender}
         />
       )}
     </div>

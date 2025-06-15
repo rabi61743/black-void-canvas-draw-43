@@ -7,7 +7,7 @@ import { exportToCSV } from "@/utils/exportUtils";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-type SortField = 'employeeId' | 'name' | 'department' | 'designation';
+type SortField = 'employee_id' | 'name' | 'department' | 'designation';
 type SortOrder = 'asc' | 'desc';
 
 const EmployeeList = () => {
@@ -26,7 +26,7 @@ const EmployeeList = () => {
     field: SortField;
     order: SortOrder;
   }>({
-    field: 'employeeId',
+    field: 'employee_id',
     order: 'asc',
   });
 
@@ -44,8 +44,16 @@ const EmployeeList = () => {
   };
 
   const sortedEmployees = [...employees].sort((a, b) => {
-    const valueA = a[sortConfig.field]?.toString().toLowerCase() || '';
-    const valueB = b[sortConfig.field]?.toString().toLowerCase() || '';
+    let valueA = '';
+    let valueB = '';
+    
+    if (sortConfig.field === 'employee_id') {
+      valueA = a.employeeId || a.employee_id || '';
+      valueB = b.employeeId || b.employee_id || '';
+    } else {
+      valueA = a[sortConfig.field]?.toString().toLowerCase() || '';
+      valueB = b[sortConfig.field]?.toString().toLowerCase() || '';
+    }
     
     if (sortConfig.order === 'asc') {
       return valueA.localeCompare(valueB);
@@ -56,7 +64,7 @@ const EmployeeList = () => {
   const handleExport = () => {
     exportToCSV(
       employees.map(emp => ({
-        'Employee ID': emp.employeeId,
+        'Employee ID': emp.employeeId || emp.employee_id,
         'Name': emp.name,
         'Department': emp.department,
         'Designation': emp.designation,
@@ -121,7 +129,7 @@ const EmployeeList = () => {
             <TableRow>
               <TableHead
                 className="cursor-pointer hover:bg-gray-100"
-                onClick={() => handleSort('employeeId')}
+                onClick={() => handleSort('employee_id')}
               >
                 <div className="flex items-center">
                   Employee ID
@@ -164,7 +172,7 @@ const EmployeeList = () => {
             {sortedEmployees.length > 0 ? (
               sortedEmployees.map(employee => (
                 <TableRow key={employee._id}>
-                  <TableCell className="font-medium">{employee.employeeId}</TableCell>
+                  <TableCell className="font-medium">{employee.employeeId || employee.employee_id}</TableCell>
                   <TableCell>{employee.name}</TableCell>
                   <TableCell>{employee.department}</TableCell>
                   <TableCell>{employee.designation}</TableCell>
