@@ -13,10 +13,10 @@ import type { SpecificationDocument, TaskAssignment } from "@/types/specificatio
 
 interface TaskManagerProps {
   specification: SpecificationDocument | null;
-  onTaskAssignment: (task: TaskAssignment) => void;
+  onSpecificationUpdate: (spec: SpecificationDocument) => void;
 }
 
-const TaskManager = ({ specification, onTaskAssignment }: TaskManagerProps) => {
+const TaskManager = ({ specification, onSpecificationUpdate }: TaskManagerProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState<Date>();
@@ -24,7 +24,7 @@ const TaskManager = ({ specification, onTaskAssignment }: TaskManagerProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!dueDate || !assignedTo) return;
+    if (!dueDate || !assignedTo || !specification) return;
 
     const newTask: TaskAssignment = {
       id: Date.now(),
@@ -37,7 +37,12 @@ const TaskManager = ({ specification, onTaskAssignment }: TaskManagerProps) => {
       notificationType: "both",
     };
 
-    onTaskAssignment(newTask);
+    const updatedSpec = {
+      ...specification,
+      tasks: [...(specification.tasks || []), newTask],
+    };
+
+    onSpecificationUpdate(updatedSpec);
     setTitle("");
     setDescription("");
     setDueDate(undefined);

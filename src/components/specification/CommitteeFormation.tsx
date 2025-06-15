@@ -7,8 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Upload, Mail, Phone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import type { SpecificationDocument } from "@/types/specification";
-import type { Letter } from "@/types/letter";
+import type { SpecificationDocument, CommitteeFormationLetter } from "@/types/specification";
 import LetterUpload from "../committee/letter/LetterUpload";
 
 interface CommitteeFormationProps {
@@ -20,11 +19,19 @@ const CommitteeFormation = ({ specification, onSpecificationUpdate }: CommitteeF
   const { toast } = useToast();
   const [notificationType, setNotificationType] = useState<"email" | "sms" | "both">("both");
 
-  const handleLetterUpload = (letter: Letter) => {
+  const handleLetterUpload = (letter: any) => {
     if (specification) {
+      const formationLetter: CommitteeFormationLetter = {
+        id: letter.id,
+        referenceNumber: letter.referenceNumber,
+        issueDate: letter.issueDate,
+        content: letter.content || "",
+        attachments: letter.attachments || [],
+      };
+
       const updatedSpec = {
         ...specification,
-        committeeFormationLetter: letter,
+        committeeFormationLetter: formationLetter,
       };
       onSpecificationUpdate(updatedSpec);
       
