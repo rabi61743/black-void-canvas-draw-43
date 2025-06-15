@@ -8,6 +8,25 @@ export interface DocumentVersion {
   submittedAt: string;
 }
 
+export interface TaskAssignment {
+  id: number;
+  title: string;
+  description: string;
+  assignedTo: number;
+  dueDate: string;
+  status: 'pending' | 'in_progress' | 'completed';
+  attachments: any[];
+  notificationType: 'email' | 'sms' | 'both';
+}
+
+export interface Letter {
+  id: number;
+  referenceNumber: string;
+  issueDate: string;
+  content: string;
+  attachments?: any[];
+}
+
 export interface SpecificationDocument {
   id: number;
   procurement_plan: string;
@@ -22,6 +41,9 @@ export interface SpecificationDocument {
   committeeId: number;
   comments: string[];
   versionHistory: DocumentVersion[];
+  tasks?: TaskAssignment[];
+  reviewTracking?: ReviewTracking[];
+  committeeFormationLetter?: Letter;
 }
 
 export interface ReviewSession {
@@ -42,6 +64,7 @@ export interface ReviewSession {
   minutes: string;
   comments: string[];
   documents: any[];
+  nextReviewDate?: string;
 }
 
 export type ReviewStatus = 'pending' | 'in_progress' | 'completed' | 'approved' | 'rejected';

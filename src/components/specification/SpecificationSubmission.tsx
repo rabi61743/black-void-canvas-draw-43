@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -46,17 +47,18 @@ const SpecificationSubmission = ({
     // Mock submission - in real app, this would call an API
     const newSpecification: SpecificationDocument = {
       id: Date.now(),
-      procurement_plan: 1, // Add required field
+      procurement_plan: "1",
       title,
       description,
       version: 1,
       status: "submitted",
-      submittedBy: 1, // Mock user ID
+      submittedBy: "1",
       submittedAt: new Date().toISOString(),
       lastModified: new Date().toISOString(),
       documentUrl: URL.createObjectURL(selectedFile),
-      committeeId: 1, // Mock committee ID
+      committeeId: 1,
       comments: [],
+      versionHistory: []
     };
 
     onSpecificationUpdate(newSpecification);

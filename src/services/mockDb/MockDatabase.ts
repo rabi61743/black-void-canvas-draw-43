@@ -1,11 +1,19 @@
 
 export class MockDatabase {
+  private static instance: MockDatabase;
   private data: Map<string, any[]> = new Map();
   private nextIds: Map<string, number> = new Map();
 
   constructor() {
     this.data = new Map();
     this.nextIds = new Map();
+  }
+
+  static getInstance(): MockDatabase {
+    if (!MockDatabase.instance) {
+      MockDatabase.instance = new MockDatabase();
+    }
+    return MockDatabase.instance;
   }
 
   create<T extends { id?: number | string; _id?: string }>(table: string, item: Omit<T, 'id' | '_id'>): T {
@@ -29,11 +37,16 @@ export class MockDatabase {
     return newItem;
   }
 
-  read<T>(table: string): T[] {
+  getAll<T>(table: string): T[] {
     return this.data.get(table) || [];
   }
 
-  findById<T extends { id?: number | string; _id?: string }>(table: string, id: number | string): T | undefined {
+  query<T>(table: string, predicate: (item: T) => boolean): T[] {
+    const items = this.data.get(table) || [];
+    return items.filter(predicate);
+  }
+
+  getById<T extends { id?: number | string; _id?: string }>(table: string, id: number | string): T | undefined {
     const items = this.data.get(table) || [];
     return items.find((item: T) => 
       (item.id && item.id.toString() === id.toString()) || 
@@ -65,6 +78,15 @@ export class MockDatabase {
     
     items.splice(index, 1);
     return true;
+  }
+
+  clear(): void {
+    this.data.clear();
+    this.nextIds.clear();
+  }
+
+  reset(): void {
+    this.clear();
   }
 
   filter<T extends { [key: string]: any }>(table: string, predicate: (item: T) => boolean): T[] {

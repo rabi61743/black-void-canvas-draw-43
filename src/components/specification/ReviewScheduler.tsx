@@ -40,7 +40,8 @@ const ReviewScheduler = ({
       specificationId: specification.id,
       scheduledDate: date.toISOString(),
       status: "scheduled",
-      reviewers: [], // Would be populated from committee members
+      reviewers: [],
+      minutes: "",
       comments: [],
       documents: [],
     };
@@ -52,7 +53,6 @@ const ReviewScheduler = ({
       description: `Review scheduled for ${format(date, "PPP")}`,
     });
 
-    // Mock notification sending
     console.log("Sending notifications to review team members");
   };
 

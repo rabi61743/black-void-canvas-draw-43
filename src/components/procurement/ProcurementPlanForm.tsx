@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -69,25 +70,56 @@ const ProcurementPlanForm: React.FC<ProcurementPlanFormProps> = ({ open, onClose
 
     const proposedBudgetPercentage = (formData.budget / formData.estimated_cost) * 100;
 
-    // Update the component where newPlan is defined (e.g., ProcurementPlanForm.tsx)
-const newPlan: Omit<ProcurementPlan, 'id'> = {
-  policy_number: formData.policy_number,
-  department: formData.department,
-  dept_index: formData.policy_number.split('-').pop() || '',
-  project_name: formData.project_name,
-  project_description: formData.project_description,
-  estimated_cost: formData.estimated_cost,
-  budget: formData.budget,
-  proposed_budget_percentage: Math.round(proposedBudgetPercentage),
-  created_at: new Date().toISOString(),
-  quarterly_targets: formData.quarterly_targets.map(target => ({
-      quarter: target.quarter,
-      target_details: target.target_details,
-      status: target.status,
-      created_at: target.created_at
-  })),
-  committee: null
-};
+    const newPlan: Omit<ProcurementPlan, 'id'> = {
+      policy_number: formData.policy_number,
+      department: formData.department,
+      dept_index: formData.policy_number.split('-').pop() || '',
+      project_name: formData.project_name,
+      project_description: formData.project_description,
+      estimated_cost: formData.estimated_cost,
+      budget: formData.budget,
+      proposed_budget: formData.budget,
+      proposed_budget_percentage: Math.round(proposedBudgetPercentage),
+      title: formData.project_name,
+      description: formData.project_description,
+      estimated_value: formData.estimated_cost,
+      procurement_method: {
+        id: 1,
+        method_name: 'Open Tender'
+      },
+      status: {
+        id: 1,
+        status_name: 'Planning'
+      },
+      category: 'Infrastructure',
+      priority: {
+        id: 1,
+        priority_name: 'High'
+      },
+      timeline: {
+        planning_start: new Date().toISOString(),
+        planning_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        tender_publication: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000).toISOString(),
+        submission_deadline: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString(),
+        evaluation_period: new Date(Date.now() + 75 * 24 * 60 * 60 * 1000).toISOString(),
+        contract_award: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
+      },
+      approvals: {
+        technical_approval: false,
+        financial_approval: false,
+        management_approval: false,
+      },
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      created_by: 'user',
+      quarterly_targets: formData.quarterly_targets.map(target => ({
+        quarter: target.quarter,
+        target_details: target.target_details,
+        status: target.status,
+        created_at: target.created_at
+      })),
+      committee: null
+    };
 
     onSubmit(newPlan);
     onClose();
@@ -236,5 +268,3 @@ const newPlan: Omit<ProcurementPlan, 'id'> = {
 };
 
 export default ProcurementPlanForm;
-
-

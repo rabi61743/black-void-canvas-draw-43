@@ -1,8 +1,7 @@
 
 import type { SpecificationDocument, ReviewSession, DocumentVersion } from "@/types/specification";
-import type { CommitteeMember } from "@/types/committee";
 
-const mockMembers: CommitteeMember[] = [
+const mockMembers = [
   {
     id: 1,
     name: "John Smith",
@@ -77,7 +76,7 @@ export const mockSpecifications: SpecificationDocument[] = [
     description: "Detailed specifications for new server hardware procurement including performance requirements and compatibility standards.",
     version: 2,
     status: "under_review",
-    submittedBy: 1,
+    submittedBy: "1",
     submittedAt: "2024-01-10T14:20:00Z",
     lastModified: "2024-01-12T09:15:00Z",
     documentUrl: "/documents/server-hardware-spec-v2.pdf",
