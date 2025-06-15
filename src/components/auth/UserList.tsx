@@ -2,17 +2,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '@/contexts/AuthContext';
-
-interface User {
-  _id: string;
-  employee_id: string;
-  email: string;
-  name: string;
-  phone: string;
-  designation: string;
-  department: string;
-  role: { role_name: string } | null;
-}
+import { User } from '@/types/employee';
 
 const UserList = () => {
   const { token } = useAuth();
@@ -59,11 +49,11 @@ const UserList = () => {
         <tbody>
           {users.map((user) => (
             <tr key={user._id} className="border">
-              <td className="border p-2">{user.employee_id}</td>
+              <td className="border p-2">{user.employeeId}</td>
               <td className="border p-2">{user.name}</td>
               <td className="border p-2">{user.email}</td>
               <td className="border p-2">{user.designation}</td>
-              <td className="border p-2">{user.phone}</td>
+              <td className="border p-2">{user.phoneNumber}</td>
               <td className="border p-2">{user.department || 'N/A'}</td>
               <td className="border p-2">{user.role?.role_name || 'N/A'}</td>
             </tr>

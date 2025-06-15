@@ -16,6 +16,7 @@ const EmployeeManagement = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddForm, setShowAddForm] = useState(false);
   const [newEmployee, setNewEmployee] = useState<Omit<Employee, 'id'>>({
+    employee_id: "",
     employeeId: "",
     name: "",
     email: "",
@@ -29,12 +30,13 @@ const EmployeeManagement = () => {
   const filteredEmployees = employees.length ? employees : mockEmployees;
   const displayedEmployees = filteredEmployees.filter(emp => 
     emp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    emp.employeeId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (emp.employeeId || emp.employee_id).toLowerCase().includes(searchTerm.toLowerCase()) ||
     emp.department.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const resetForm = () => {
     setNewEmployee({
+      employee_id: "",
       employeeId: "",
       name: "",
       email: "",
@@ -49,14 +51,17 @@ const EmployeeManagement = () => {
   const handleInputChange = (name: keyof Omit<Employee, 'id'>, value: string) => {
     setNewEmployee(prev => ({
       ...prev,
-      [name]: value
+      [name]: value,
+      // Sync employeeId and employee_id
+      ...(name === 'employeeId' && { employee_id: value }),
+      ...(name === 'employee_id' && { employeeId: value })
     }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!newEmployee.employeeId || !newEmployee.name || !newEmployee.email) {
+    if (!newEmployee.employee_id || !newEmployee.name || !newEmployee.email) {
       toast({
         title: "Validation Error",
         description: "Please fill in all required fields",
@@ -103,7 +108,7 @@ const EmployeeManagement = () => {
       </div>
 
       <div className="bg-white rounded-xl shadow-sm">
-        <EmployeeList employees={displayedEmployees} />
+        <EmployeeList />
       </div>
 
       {showAddForm && (

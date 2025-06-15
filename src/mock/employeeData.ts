@@ -4,7 +4,8 @@ import { Employee } from "@/types/employee";
 export const mockEmployees: Employee[] = [
   {
     id: 1,
-    employeeId: "EMP001",
+    employee_id: "EMP001",
+    employeeId: "EMP001", // Add alias for compatibility
     name: "John Smith",
     email: "john.smith@ntc.net.np",
     phone: "+977-1234567890",
@@ -15,6 +16,7 @@ export const mockEmployees: Employee[] = [
   },
   {
     id: 2,
+    employee_id: "EMP002",
     employeeId: "EMP002",
     name: "Sarah Johnson",
     email: "sarah.j@ntc.net.np",
@@ -26,6 +28,7 @@ export const mockEmployees: Employee[] = [
   },
   {
     id: 3,
+    employee_id: "EMP003",
     employeeId: "EMP003",
     name: "Raj Sharma",
     email: "raj.sharma@ntc.net.np",
@@ -37,6 +40,7 @@ export const mockEmployees: Employee[] = [
   },
   {
     id: 4,
+    employee_id: "EMP004",
     employeeId: "EMP004",
     name: "Maya Patel",
     email: "maya.patel@ntc.net.np",
@@ -48,6 +52,7 @@ export const mockEmployees: Employee[] = [
   },
   {
     id: 5,
+    employee_id: "EMP005",
     employeeId: "EMP005",
     name: "Bikash KC",
     email: "bikash.kc@ntc.net.np",
@@ -59,6 +64,7 @@ export const mockEmployees: Employee[] = [
   },
   {
     id: 6,
+    employee_id: "EMP006",
     employeeId: "EMP006",
     name: "Priya Adhikari",
     email: "priya.adhikari@ntc.net.np",
@@ -70,6 +76,7 @@ export const mockEmployees: Employee[] = [
   },
   {
     id: 7,
+    employee_id: "EMP007",
     employeeId: "EMP007",
     name: "Anup Thapa",
     email: "anup.thapa@ntc.net.np",
@@ -81,6 +88,7 @@ export const mockEmployees: Employee[] = [
   },
   {
     id: 8,
+    employee_id: "EMP008",
     employeeId: "EMP008",
     name: "Sita Gurung",
     email: "sita.gurung@ntc.net.np",
@@ -92,6 +100,7 @@ export const mockEmployees: Employee[] = [
   },
   {
     id: 9,
+    employee_id: "EMP009",
     employeeId: "EMP009",
     name: "Kumar Basnet",
     email: "kumar.basnet@ntc.net.np",
@@ -103,6 +112,7 @@ export const mockEmployees: Employee[] = [
   },
   {
     id: 10,
+    employee_id: "EMP010",
     employeeId: "EMP010",
     name: "Sunita Rai",
     email: "sunita.rai@ntc.net.np",

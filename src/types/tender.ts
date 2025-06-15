@@ -8,7 +8,7 @@ export interface TenderComment {
   text: string;
   author: string;
   createdAt: string;
-  timestamp: string;
+  timestamp: string; // Keep timestamp for compatibility
 }
 
 export interface Tender {

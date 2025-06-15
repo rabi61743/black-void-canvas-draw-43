@@ -34,11 +34,11 @@ const EmployeeForm = ({ employee, onChange, onSubmit, onCancel }: EmployeeFormPr
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="employeeId">Employee ID</Label>
+            <Label htmlFor="employee_id">Employee ID</Label>
             <Input
-              id="employeeId"
-              name="employeeId"
-              value={employee.employeeId}
+              id="employee_id"
+              name="employee_id"
+              value={employee.employee_id}
               onChange={handleInputChange}
               required
             />
@@ -115,4 +115,3 @@ const EmployeeForm = ({ employee, onChange, onSubmit, onCancel }: EmployeeFormPr
 };
 
 export default EmployeeForm;
-

@@ -31,7 +31,7 @@ const ImportButton = ({ onImport }: ImportButtonProps) => {
         try {
           const employee = convertToEmployee(row);
 
-          if (!employee.employeeId || !employee.name || !employee.email) {
+          if (!employee.employee_id || !employee.name || !employee.email) {
             errorCount++;
             continue;
           }

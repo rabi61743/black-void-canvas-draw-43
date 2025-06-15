@@ -46,7 +46,7 @@ export interface ReviewTracking {
   comments: string[];
   nextReviewDate?: string;
   notifiedMembers: {
-    memberId: number;
+    memberId: string; // Change to string to match actual usage
     notified: boolean;
     notificationMethod: NotificationType;
     acknowledgedAt?: string;

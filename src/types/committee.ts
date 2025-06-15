@@ -8,7 +8,7 @@ export interface CommitteeTask {
   id: number;
   title: string;
   description: string;
-  assignedTo: number; // memberId
+  assignedTo: string; // Change to string to match usage
   dueDate: string;
   status: CommitteeTaskStatus;
   attachments?: File[];
