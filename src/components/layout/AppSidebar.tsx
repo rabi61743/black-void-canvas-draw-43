@@ -29,7 +29,6 @@ import {
 import { UserMenu } from "./UserMenu";
 import { NavigationItem } from "@/types/navigation";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 
 export function AppSidebar() {
   const navigate = useNavigate();
@@ -49,6 +48,7 @@ export function AppSidebar() {
         { name: "View Committees", path: "/committee", icon: FolderOpen },
       ],
     },
+    { name: "Procurement Plan", path: "/procurement-plan", icon: FileText },
     { name: "Settings", path: "/settings", icon: Settings },
     { name: "Notifications", path: "/notifications", icon: Bell },
   ];
@@ -69,20 +69,20 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar className="border-r">
-      <SidebarHeader className="border-b px-4 py-3">
+    <Sidebar className="border-r bg-white shadow-sm">
+      <SidebarHeader className="border-b px-4 py-4 bg-blue-600">
         <h1
           onClick={() => navigate("/")}
-          className="text-lg font-semibold cursor-pointer hover:text-gray-600"
+          className="text-lg font-semibold cursor-pointer hover:text-blue-100 text-white"
         >
           Procurement Portal
         </h1>
       </SidebarHeader>
       
-      <SidebarContent>
+      <SidebarContent className="bg-white">
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-1 p-2">
               {navigationItems.map((item) => {
                 const Icon = item.icon;
                 
@@ -91,11 +91,11 @@ export function AppSidebar() {
                     <SidebarMenuItem key={item.name}>
                       <SidebarMenuButton
                         onClick={() => setShowCommitteeSubItems(!showCommitteeSubItems)}
-                        className={`w-full ${
-                          isActive(item.path) ? "bg-gray-100" : ""
+                        className={`w-full hover:bg-blue-50 text-gray-700 hover:text-blue-600 ${
+                          isActive(item.path) ? "bg-blue-100 text-blue-700" : ""
                         }`}
                       >
-                        <Icon />
+                        <Icon className="h-4 w-4" />
                         <span>{item.name}</span>
                         <ChevronRight className={`ml-auto h-4 w-4 transition-transform ${showCommitteeSubItems ? 'rotate-90' : ''}`} />
                       </SidebarMenuButton>
@@ -107,11 +107,11 @@ export function AppSidebar() {
                               <SidebarMenuSubItem key={subItem.path}>
                                 <SidebarMenuSubButton
                                   onClick={() => handleNavigation(subItem.path)}
-                                  className={
-                                    isActive(subItem.path) ? "bg-gray-100" : ""
-                                  }
+                                  className={`hover:bg-blue-50 text-gray-600 hover:text-blue-600 ${
+                                    isActive(subItem.path) ? "bg-blue-100 text-blue-700" : ""
+                                  }`}
                                 >
-                                  <SubIcon />
+                                  <SubIcon className="h-4 w-4" />
                                   <span>{subItem.name}</span>
                                 </SidebarMenuSubButton>
                               </SidebarMenuSubItem>
@@ -127,9 +127,11 @@ export function AppSidebar() {
                   <SidebarMenuItem key={item.path}>
                     <SidebarMenuButton
                       onClick={() => handleNavigation(item.path)}
-                      className={isActive(item.path) ? "bg-gray-100" : ""}
+                      className={`hover:bg-blue-50 text-gray-700 hover:text-blue-600 ${
+                        isActive(item.path) ? "bg-blue-100 text-blue-700" : ""
+                      }`}
                     >
-                      <Icon />
+                      <Icon className="h-4 w-4" />
                       <span>{item.name}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -140,9 +142,11 @@ export function AppSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   onClick={handleExternalAgency}
-                  className={isActive("/complaints") ? "bg-gray-100" : ""}
+                  className={`hover:bg-blue-50 text-gray-700 hover:text-blue-600 ${
+                    isActive("/complaints") ? "bg-blue-100 text-blue-700" : ""
+                  }`}
                 >
-                  <MessageSquare />
+                  <MessageSquare className="h-4 w-4" />
                   <span>External Agency</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -151,7 +155,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t p-2">
+      <SidebarFooter className="border-t p-2 bg-white">
         <UserMenu />
       </SidebarFooter>
     </Sidebar>

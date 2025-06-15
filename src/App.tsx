@@ -55,14 +55,17 @@ const AuthenticatedLayout = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full">
+    <SidebarProvider defaultOpen={true}>
+      <div className="min-h-screen flex w-full bg-gray-50">
         <AppSidebar />
-        <SidebarInset>
-          <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+        <SidebarInset className="flex-1">
+          <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-white px-4 shadow-sm">
             <SidebarTrigger className="-ml-1" />
+            <div className="flex-1">
+              <h1 className="text-lg font-semibold text-gray-900">Procurement Portal</h1>
+            </div>
           </header>
-          <main className="flex-1 p-6">
+          <main className="flex-1 p-6 bg-white min-h-[calc(100vh-4rem)]">
             {children}
           </main>
         </SidebarInset>
