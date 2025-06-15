@@ -1,6 +1,6 @@
-
 import { useState, useEffect } from 'react';
-import MockDatabase from '@/services/mockDb/MockDatabase';
+import { MockDatabase } from '@/services/mockDb/MockDatabase';
+import { initializeDb } from '@/services/mockDb/initializeDb';
 
 export function useMockDb<T>(collection: string, query?: (item: T) => boolean) {
   const [data, setData] = useState<T[]>([]);

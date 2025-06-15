@@ -1,3 +1,4 @@
+
 export class MockDatabase {
   private data: Map<string, any[]> = new Map();
   private nextIds: Map<string, number> = new Map();
@@ -71,3 +72,5 @@ export class MockDatabase {
     return items.filter(predicate);
   }
 }
+
+export default MockDatabase;

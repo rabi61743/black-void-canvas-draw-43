@@ -1,15 +1,15 @@
 
-import MockDatabase from './MockDatabase';
-import { mockCommittees } from '@/mock/committeeData';
+import type { Employee } from '@/types/employee';
+import { MockDatabase } from './MockDatabase';
+import { mockEmployees } from '@/mock/employeeData';
 
-export const initializeDb = () => {
-  const db = MockDatabase.getInstance();
+export const initializeDb = (): MockDatabase => {
+  const db = new MockDatabase();
   
-  // Initialize with mock data if empty
-  if (!db.getAll('committees') || db.getAll('committees').length === 0) {
-    console.log('Initializing database with mock committee data');
-    mockCommittees.forEach(committee => {
-      db.create('committees', committee);
-    });
-  }
+  // Initialize with mock data
+  mockEmployees.forEach(employee => {
+    db.create<Employee>('employees', employee);
+  });
+  
+  return db;
 };

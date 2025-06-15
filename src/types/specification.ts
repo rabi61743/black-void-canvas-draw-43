@@ -1,42 +1,51 @@
 
-import type { CommitteeMember } from "./committee";
-import type { Letter } from "./letter";
-
-export type SpecificationStatus = 
-  | "draft"
-  | "submitted"
-  | "under_review"
-  | "revision_required"
-  | "approved"
-  | "rejected";
-
-export type ReviewStatus = 
-  | "scheduled"
-  | "in_progress"
-  | "completed"
-  | "rescheduled";
-
-export type NotificationType = "email" | "sms" | "both";
-
 export interface DocumentVersion {
-  id: number;
+  id?: number;
   version: number;
-  documentUrl: string;
+  documentUrl?: string;
   changes: string;
   submittedBy: number;
   submittedAt: string;
 }
 
-export interface TaskAssignment {
+export interface SpecificationDocument {
   id: number;
+  procurement_plan: string;
   title: string;
   description: string;
-  assignedTo: number;
-  dueDate: string;
-  status: "pending" | "in_progress" | "completed";
-  attachments: string[];
-  notificationType: NotificationType;
+  version: number;
+  status: 'draft' | 'under_review' | 'approved' | 'rejected' | 'submitted';
+  submittedBy: string | number;
+  submittedAt: string;
+  lastModified: string;
+  documentUrl: string;
+  committeeId: number;
+  comments: string[];
+  versionHistory: DocumentVersion[];
 }
+
+export interface ReviewSession {
+  id: number;
+  specificationId: number;
+  scheduledDate: string;
+  status: 'scheduled' | 'in_progress' | 'completed' | 'cancelled';
+  reviewers: Array<{
+    id: number;
+    name: string;
+    employeeId: string;
+    role: string;
+    department: string;
+    email: string;
+    phone: string;
+    tasks: any[];
+  }>;
+  minutes: string;
+  comments: string[];
+  documents: any[];
+}
+
+export type ReviewStatus = 'pending' | 'in_progress' | 'completed' | 'approved' | 'rejected';
+export type NotificationType = 'email' | 'sms' | 'both';
 
 export interface ReviewTracking {
   id: number;
@@ -44,49 +53,11 @@ export interface ReviewTracking {
   reviewDate: string;
   status: ReviewStatus;
   comments: string[];
-  nextReviewDate?: string;
+  nextReviewDate: string;
   notifiedMembers: {
-    memberId: string; // Change to string to match actual usage
+    memberId: number;
     notified: boolean;
     notificationMethod: NotificationType;
     acknowledgedAt?: string;
-  }[];
-}
-
-export interface SpecificationDocument {
-  id: number;
-  procurement_plan: number;
-  title: string;
-  description: string;
-  version: number;
-  status: SpecificationStatus;
-  submittedBy: number;
-  submittedAt: string;
-  lastModified: string;
-  documentUrl: string;
-  committeeId: number;
-  comments: string[];
-  versionHistory?: DocumentVersion[];
-  committeeFormationLetter?: Letter;
-  tasks?: TaskAssignment[];
-  reviewTracking?: ReviewTracking[];
-}
-
-export interface ReviewSession {
-  id: number;
-  specificationId: number;
-  scheduledDate: string;
-  actualDate?: string;
-  status: ReviewStatus;
-  reviewers: CommitteeMember[];
-  minutes?: string;
-  comments: string[];
-  nextReviewDate?: string;
-  documents: {
-    id: number;
-    name: string;
-    url: string;
-    uploadedAt: string;
-    type: "review_minutes" | "supporting_document" | "final_approval";
   }[];
 }

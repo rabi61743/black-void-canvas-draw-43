@@ -1,3 +1,4 @@
+
 import type { SpecificationDocument, ReviewSession, DocumentVersion } from "@/types/specification";
 import type { CommitteeMember } from "@/types/committee";
 
@@ -63,9 +64,9 @@ export const mockSpecifications: SpecificationDocument[] = [
     versionHistory: [
       {
         version: 1,
-        modifiedBy: "John Smith",
-        modifiedAt: "2024-01-15T10:30:00Z",
-        changes: "Initial version created"
+        changes: "Initial version created",
+        submittedBy: 1,
+        submittedAt: "2024-01-15T10:30:00Z"
       }
     ]
   },
@@ -89,15 +90,15 @@ export const mockSpecifications: SpecificationDocument[] = [
     versionHistory: [
       {
         version: 1,
-        modifiedBy: "Sarah Johnson",
-        modifiedAt: "2024-01-10T14:20:00Z",
-        changes: "Initial specification created"
+        changes: "Initial specification created",
+        submittedBy: 2,
+        submittedAt: "2024-01-10T14:20:00Z"
       },
       {
         version: 2,
-        modifiedBy: "Mike Wilson",
-        modifiedAt: "2024-01-12T09:15:00Z",
-        changes: "Updated based on technical review feedback"
+        changes: "Updated based on technical review feedback",
+        submittedBy: 3,
+        submittedAt: "2024-01-12T09:15:00Z"
       }
     ]
   }
