@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '@/contexts/AuthContext';
@@ -22,12 +23,12 @@ const UserList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('${import.meta.env.VITE_API_BASE_URL}/api/users/', {
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setUsers(response.data);
+        setUsers(response.data as User[]);
         setLoading(false);
       } catch (err) {
         setError('Failed to fetch users');
