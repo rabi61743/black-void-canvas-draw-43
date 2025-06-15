@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -67,7 +66,16 @@ export function ExistingProjectDiscussion() {
       setLoading(true);
       const response = await projectsApi.getById(projectId);
       if (response.data && response.data.documents) {
-        setDocuments(response.data.documents);
+        // Transform API documents to match local Document type
+        const transformedDocuments = response.data.documents.map((doc: any): Document => ({
+          id: doc.id,
+          name: doc.name,
+          url: doc.url,
+          type: doc.type || 'document',
+          size: doc.size,
+          uploaded_at: doc.uploaded_at || new Date().toISOString()
+        }));
+        setDocuments(transformedDocuments);
       }
     } catch (error) {
       console.error("Error fetching project documents:", error);
@@ -90,7 +98,23 @@ export function ExistingProjectDiscussion() {
       setLoading(true);
       const response = await commentsApi.getByProject(projectId);
       if (response.data && response.data.length > 0) {
-        setComments(response.data);
+        // Transform API comments to match local CommentType
+        const transformedComments = response.data.map((comment: any): CommentType => ({
+          id: comment.id,
+          author: comment.author,
+          date: comment.date,
+          content: comment.content,
+          role: comment.role,
+          attachments: comment.attachments ? comment.attachments.map((doc: any): Document => ({
+            id: doc.id,
+            name: doc.name,
+            url: doc.url,
+            type: doc.type || 'document',
+            size: doc.size,
+            uploaded_at: doc.uploaded_at || new Date().toISOString()
+          })) : []
+        }));
+        setComments(transformedComments);
       } else {
         // Set a default "no comments" message if there are no comments
         setComments([
@@ -275,7 +299,15 @@ export function ExistingProjectDiscussion() {
       
       // If successful, add the new documents to state
       if (response.data) {
-        setDocuments(prev => [...prev, ...response.data]);
+        const transformedNewDocs = response.data.map((doc: any): Document => ({
+          id: doc.id,
+          name: doc.name,
+          url: doc.url,
+          type: doc.type || 'document',
+          size: doc.size,
+          uploaded_at: doc.uploaded_at || new Date().toISOString()
+        }));
+        setDocuments(prev => [...prev, ...transformedNewDocs]);
         toast({
           title: "Success",
           description: `${files.length} document(s) uploaded successfully`,

@@ -48,8 +48,8 @@ const EmployeeList = () => {
     let valueB = '';
     
     if (sortConfig.field === 'employee_id') {
-      valueA = a.employeeId || a.employee_id || '';
-      valueB = b.employeeId || b.employee_id || '';
+      valueA = a.employee_id || '';
+      valueB = b.employee_id || '';
     } else {
       valueA = a[sortConfig.field]?.toString().toLowerCase() || '';
       valueB = b[sortConfig.field]?.toString().toLowerCase() || '';
@@ -64,7 +64,7 @@ const EmployeeList = () => {
   const handleExport = () => {
     exportToCSV(
       employees.map(emp => ({
-        'Employee ID': emp.employeeId || emp.employee_id,
+        'Employee ID': emp.employee_id,
         'Name': emp.name,
         'Department': emp.department,
         'Designation': emp.designation,
@@ -171,8 +171,8 @@ const EmployeeList = () => {
           <TableBody>
             {sortedEmployees.length > 0 ? (
               sortedEmployees.map(employee => (
-                <TableRow key={employee._id}>
-                  <TableCell className="font-medium">{employee.employeeId || employee.employee_id}</TableCell>
+                <TableRow key={employee.id}>
+                  <TableCell className="font-medium">{employee.employee_id}</TableCell>
                   <TableCell>{employee.name}</TableCell>
                   <TableCell>{employee.department}</TableCell>
                   <TableCell>{employee.designation}</TableCell>
@@ -201,7 +201,7 @@ const EmployeeList = () => {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => handleUpdate(employee._id)}
+                          onClick={() => handleUpdate(employee.id)}
                         >
                           <Edit className="h-4 w-4 mr-1" />
                           Update
@@ -209,7 +209,7 @@ const EmployeeList = () => {
                         <Button
                           variant="destructive"
                           size="sm"
-                          onClick={() => handleDelete(employee._id)}
+                          onClick={() => handleDelete(employee.id)}
                         >
                           <Trash2 className="h-4 w-4 mr-1" />
                           Delete

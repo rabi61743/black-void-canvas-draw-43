@@ -17,7 +17,7 @@ const EmployeeEdit = () => {
   const { employees, updateUser, hasPermission } = useAuth();
   const { toast } = useToast();
 
-  const employee = employees.find(emp => emp._id === userId);
+  const employee = employees.find(emp => emp.id === userId);
 
   const [formData, setFormData] = useState({
     name: employee?.name || "",

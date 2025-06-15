@@ -1,4 +1,3 @@
-
 import type { SpecificationDocument, ReviewSession, DocumentVersion } from "@/types/specification";
 import type { CommitteeMember } from "@/types/committee";
 
@@ -47,21 +46,61 @@ const mockVersionHistory: DocumentVersion[] = [
 export const mockSpecifications: SpecificationDocument[] = [
   {
     id: 1,
-    title: "Network Infrastructure Upgrade Specification",
-    description: "Detailed specifications for upgrading the corporate network infrastructure",
+    procurement_plan: "1",
+    title: "Network Infrastructure Upgrade",
+    description: "Specification for upgrading the core network infrastructure including routers, switches, and security appliances.",
+    version: 1,
+    status: "draft",
+    submittedBy: "1",
+    submittedAt: "2024-01-15T10:30:00Z",
+    lastModified: "2024-01-15T10:30:00Z",
+    documentUrl: "/documents/network-infrastructure-spec-v1.pdf",
+    committeeId: 1,
+    comments: [
+      "Initial draft completed",
+      "Pending technical review"
+    ],
+    versionHistory: [
+      {
+        version: 1,
+        modifiedBy: "John Smith",
+        modifiedAt: "2024-01-15T10:30:00Z",
+        changes: "Initial version created"
+      }
+    ]
+  },
+  {
+    id: 2,
+    procurement_plan: "1",
+    title: "Server Hardware Specification",
+    description: "Detailed specifications for new server hardware procurement including performance requirements and compatibility standards.",
     version: 2,
     status: "under_review",
     submittedBy: 1,
-    submittedAt: "2024-03-15T10:00:00Z",
-    lastModified: "2024-03-16T14:30:00Z",
-    documentUrl: "/docs/network-spec-v2.pdf",
+    submittedAt: "2024-01-10T14:20:00Z",
+    lastModified: "2024-01-12T09:15:00Z",
+    documentUrl: "/documents/server-hardware-spec-v2.pdf",
     committeeId: 1,
     comments: [
-      "Please review section 3.2 regarding bandwidth requirements",
-      "Cost estimates need to be updated in section 5",
+      "Version 1 feedback incorporated",
+      "Under committee review",
+      "Technical requirements validated"
     ],
-    versionHistory: mockVersionHistory,
-  },
+    versionHistory: [
+      {
+        version: 1,
+        modifiedBy: "Sarah Johnson",
+        modifiedAt: "2024-01-10T14:20:00Z",
+        changes: "Initial specification created"
+      },
+      {
+        version: 2,
+        modifiedBy: "Mike Wilson",
+        modifiedAt: "2024-01-12T09:15:00Z",
+        changes: "Updated based on technical review feedback"
+      }
+    ]
+  }
 ];
 
 export const mockReviews: ReviewSession[] = [

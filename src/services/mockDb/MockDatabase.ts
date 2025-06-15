@@ -1,166 +1,73 @@
+export class MockDatabase {
+  private data: Map<string, any[]> = new Map();
+  private nextIds: Map<string, number> = new Map();
 
-import { Tender } from "@/types/tender";
-import { Vendor } from "@/types/vendor";
-import { BidSecurity, DocumentFee, PreBidMeeting, Clarification } from "@/types/procurement";
-import { Committee } from "@/types/committee";
-import { Employee } from "@/types/employee";
-import { mockTenders } from "@/mock/tenderData";
-import { mockBidSecurities, mockDocumentFees, mockPreBidMeetings, mockClarifications } from "@/mock/procurementData";
-import { mockVendors } from "@/utils/vendorUtils";
-import { mockCommittees } from "@/mock/committeeData";
-import { mockEmployees } from "@/mock/employeeData";
+  constructor() {
+    this.data = new Map();
+    this.nextIds = new Map();
+  }
 
-type Collections = {
-  tenders: Tender[];
-  vendors: Vendor[];
-  bidSecurities: BidSecurity[];
-  documentFees: DocumentFee[];
-  preBidMeetings: PreBidMeeting[];
-  clarifications: Clarification[];
-  committees: Committee[];
-  employees: Employee[];
-};
-
-class MockDatabase {
-  private static instance: MockDatabase;
-  private data: Collections;
-
-  private constructor() {
-    const savedData = localStorage.getItem('mockDb');
-    if (savedData) {
-      try {
-        this.data = JSON.parse(savedData);
-      } catch (error) {
-        this.initializeWithMockData();
-      }
-    } else {
-      this.initializeWithMockData();
+  create<T extends { id?: number | string; _id?: string }>(table: string, item: Omit<T, 'id' | '_id'>): T {
+    if (!this.data.has(table)) {
+      this.data.set(table, []);
+      this.nextIds.set(table, 1);
     }
-  }
 
-  private initializeWithMockData() {
-    this.data = {
-      tenders: mockTenders,
-      vendors: mockVendors,
-      bidSecurities: mockBidSecurities,
-      documentFees: mockDocumentFees,
-      preBidMeetings: mockPreBidMeetings,
-      clarifications: mockClarifications,
-      committees: mockCommittees,
-      employees: mockEmployees,
-    };
-    this.saveToStorage();
-  }
-
-  public static getInstance(): MockDatabase {
-    if (!MockDatabase.instance) {
-      MockDatabase.instance = new MockDatabase();
-    }
-    return MockDatabase.instance;
-  }
-
-  private saveToStorage(): void {
-    try {
-      localStorage.setItem('mockDb', JSON.stringify(this.data));
-      window.dispatchEvent(new Event('mockDbUpdate'));
-    } catch (error) {
-    }
-  }
-
-  public getAll<K extends keyof Collections>(collection: K): Collections[K] {
-    const result = this.data[collection];
-    return Array.isArray(result) ? [...result] as Collections[K] : result;
-  }
-
-  public getById<K extends keyof Collections>(
-    collection: K,
-    id: number
-  ): Collections[K][number] | undefined {
-    const item = this.data[collection].find((item) => item.id === id);
-    return item;
-  }
-
-  public create<K extends keyof Collections>(
-    collection: K,
-    item: Omit<Collections[K][number], 'id'>
-  ): Collections[K][number] {
+    const items = this.data.get(table)!;
+    const nextId = this.nextIds.get(table)!;
     
-    const newId = Math.max(...this.data[collection].map((i) => i.id), 0) + 1;
-    const newItem = { ...item, id: newId } as Collections[K][number];
+    const newItem = {
+      ...item,
+      id: nextId,
+      _id: nextId.toString()
+    } as T;
+
+    items.push(newItem);
+    this.nextIds.set(table, nextId + 1);
     
-    this.data = {
-      ...this.data,
-      [collection]: [...this.data[collection], newItem] as Collections[K]
-    };
-    
-    this.saveToStorage();
     return newItem;
   }
 
-  public update<K extends keyof Collections>(
-    collection: K,
-    id: number,
-    updates: Partial<Collections[K][number]>
-  ): Collections[K][number] | undefined {
-    const index = this.data[collection].findIndex((item) => item.id === id);
-    
-    if (index === -1) return undefined;
-
-    const updatedItem = {
-      ...this.data[collection][index],
-      ...updates,
-    } as Collections[K][number];
-
-    const newCollection = [
-      ...this.data[collection].slice(0, index),
-      updatedItem,
-      ...this.data[collection].slice(index + 1)
-    ] as Collections[K];
-
-    this.data = {
-      ...this.data,
-      [collection]: newCollection
-    };
-    
-    this.saveToStorage();
-    return updatedItem;
+  read<T>(table: string): T[] {
+    return this.data.get(table) || [];
   }
 
-  public delete<K extends keyof Collections>(
-    collection: K,
-    id: number
-  ): boolean {
-    const initialLength = this.data[collection].length;
-    const newCollection = this.data[collection].filter((item) => item.id !== id) as Collections[K];
-    
-    this.data = {
-      ...this.data,
-      [collection]: newCollection
-    };
-    
-    const deleted = initialLength > this.data[collection].length;
-    if (deleted) this.saveToStorage();
-    
-    return deleted;
+  findById<T extends { id?: number | string; _id?: string }>(table: string, id: number | string): T | undefined {
+    const items = this.data.get(table) || [];
+    return items.find((item: T) => 
+      (item.id && item.id.toString() === id.toString()) || 
+      (item._id && item._id === id.toString())
+    );
   }
 
-  public query<K extends keyof Collections>(
-    collection: K,
-    predicate: (item: Collections[K][number]) => boolean
-  ): Collections[K] {
-    const results = this.data[collection].filter(predicate);
-    return results as Collections[K];
+  update<T extends { id?: number | string; _id?: string }>(table: string, id: number | string, updates: Partial<T>): T | null {
+    const items = this.data.get(table) || [];
+    const index = items.findIndex((item: T) => 
+      (item.id && item.id.toString() === id.toString()) || 
+      (item._id && item._id === id.toString())
+    );
+    
+    if (index === -1) return null;
+    
+    items[index] = { ...items[index], ...updates };
+    return items[index];
   }
 
-  public clear(): void {
-    localStorage.removeItem('mockDb');
-    this.initializeWithMockData();
+  delete<T extends { id?: number | string; _id?: string }>(table: string, id: number | string): boolean {
+    const items = this.data.get(table) || [];
+    const index = items.findIndex((item: T) => 
+      (item.id && item.id.toString() === id.toString()) || 
+      (item._id && item._id === id.toString())
+    );
+    
+    if (index === -1) return false;
+    
+    items.splice(index, 1);
+    return true;
   }
 
-  public reset(): void {
-    this.initializeWithMockData();
+  filter<T extends { [key: string]: any }>(table: string, predicate: (item: T) => boolean): T[] {
+    const items = this.data.get(table) || [];
+    return items.filter(predicate);
   }
 }
-
-export default MockDatabase;
-
