@@ -1,3 +1,4 @@
+
 # config/settings.py
 from pathlib import Path
 from datetime import timedelta
@@ -52,10 +53,8 @@ MIDDLEWARE = [
     'config.middleware.CustomXFrameOptionsMiddleware',  # Correct path
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5174",
-    "http://localhost:3000",
-]
+# Allow all origins for development
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
 CORS_ALLOW_HEADERS = [
@@ -160,5 +159,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
-
