@@ -1,13 +1,15 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { authApi } from '@/services/api';
+import { authApi, usersApi } from '@/services/api';
 import { useToast } from '@/hooks/use-toast';
+import { User as UserType, UpdateUserData } from '@/types/employee';
 
 interface User {
   _id: string;
   name: string;
   email: string;
   employeeId: string;
+  employee_id: string; // Add both for compatibility
   role: {
     id: number;
     role_name: string;
@@ -30,6 +32,16 @@ interface AuthContextType {
   loading: boolean;
   connectionError: boolean;
   isOfflineMode: boolean;
+  // Employee management
+  employees: UserType[];
+  employeesLoading: boolean;
+  employeesError: string | null;
+  refetchEmployees: () => Promise<void>;
+  updateUser: (id: string, userData: UpdateUserData) => Promise<boolean>;
+  deleteUser: (id: string) => Promise<boolean>;
+  register: (userData: any) => Promise<boolean>;
+  // Permissions
+  hasPermission: (permission: string) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -44,6 +56,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [connectionError, setConnectionError] = useState(false);
   const [isOfflineMode, setIsOfflineMode] = useState(false);
+  const [employees, setEmployees] = useState<UserType[]>([]);
+  const [employeesLoading, setEmployeesLoading] = useState(false);
+  const [employeesError, setEmployeesError] = useState<string | null>(null);
   const { toast } = useToast();
 
   // Check if we're in development mode
@@ -67,7 +82,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           console.log("AuthProvider: Attempting to get current user...");
           const response = await authApi.getCurrentUser();
           console.log("AuthProvider: Current user response:", response.data);
-          setUser(response.data);
+          const userData = response.data;
+          // Ensure both employee_id and employeeId are available for compatibility
+          const userWithCompatibility = {
+            ...userData,
+            employeeId: userData.employee_id || userData.employeeId,
+            employee_id: userData.employee_id || userData.employeeId
+          };
+          setUser(userWithCompatibility);
           setConnectionError(false);
         } catch (error: any) {
           console.error("AuthProvider: Failed to get current user:", error);
@@ -107,11 +129,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const response = await authApi.login(employeeId, password);
       console.log("AuthProvider: Login response:", response.data);
       
-      const { access, user: userData } = response.data;
+      const loginData = response.data as { access: string; user: any };
+      const { access, user: userData } = loginData;
       
       localStorage.setItem('access_token', access);
       setToken(access);
-      setUser(userData);
+      
+      // Ensure both employee_id and employeeId are available for compatibility
+      const userWithCompatibility = {
+        ...userData,
+        employeeId: userData.employee_id || userData.employeeId,
+        employee_id: userData.employee_id || userData.employeeId
+      };
+      setUser(userWithCompatibility);
       setIsOfflineMode(false);
       
       toast({
@@ -155,6 +185,94 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
   };
 
+  const refetchEmployees = async () => {
+    if (!token) return;
+    
+    setEmployeesLoading(true);
+    setEmployeesError(null);
+    
+    try {
+      const response = await usersApi.getAll();
+      setEmployees(response.data);
+    } catch (error: any) {
+      console.error("Error fetching employees:", error);
+      setEmployeesError(error.message || "Failed to fetch employees");
+    } finally {
+      setEmployeesLoading(false);
+    }
+  };
+
+  const updateUser = async (id: string, userData: UpdateUserData): Promise<boolean> => {
+    try {
+      await usersApi.update(id, userData);
+      await refetchEmployees(); // Refresh the list
+      toast({
+        title: "User Updated",
+        description: "User has been successfully updated."
+      });
+      return true;
+    } catch (error: any) {
+      console.error("Error updating user:", error);
+      toast({
+        title: "Update Failed",
+        description: error.message || "Failed to update user.",
+        variant: "destructive"
+      });
+      return false;
+    }
+  };
+
+  const deleteUser = async (id: string): Promise<boolean> => {
+    try {
+      await usersApi.delete(id);
+      await refetchEmployees(); // Refresh the list
+      toast({
+        title: "User Deleted",
+        description: "User has been successfully deleted."
+      });
+      return true;
+    } catch (error: any) {
+      console.error("Error deleting user:", error);
+      toast({
+        title: "Delete Failed",
+        description: error.message || "Failed to delete user.",
+        variant: "destructive"
+      });
+      return false;
+    }
+  };
+
+  const register = async (userData: any): Promise<boolean> => {
+    try {
+      await authApi.register(userData);
+      toast({
+        title: "Registration Successful",
+        description: "User has been successfully registered."
+      });
+      return true;
+    } catch (error: any) {
+      console.error("Registration error:", error);
+      toast({
+        title: "Registration Failed",
+        description: error.message || "Failed to register user.",
+        variant: "destructive"
+      });
+      return false;
+    }
+  };
+
+  const hasPermission = (permission: string): boolean => {
+    if (!user) return false;
+    
+    // Admin users have all permissions
+    if (user.role?.role_name === 'admin' || user.role?.role_name === 'Superadmin') {
+      return true;
+    }
+    
+    // Check if user has the specific permission
+    return user.permissions?.includes(permission) || false;
+  };
+
   const value: AuthContextType = {
     user,
     token,
@@ -163,7 +281,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     logout,
     loading,
     connectionError,
-    isOfflineMode
+    isOfflineMode,
+    employees,
+    employeesLoading,
+    employeesError,
+    refetchEmployees,
+    updateUser,
+    deleteUser,
+    register,
+    hasPermission
   };
 
   console.log("AuthProvider: Current auth state:", {

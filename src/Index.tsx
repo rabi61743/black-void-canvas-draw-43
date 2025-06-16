@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -26,8 +27,8 @@ function Complaints() {
 
     const fetchProjects = async () => {
       try {
-        console.log("Fetching complaints for user:", user?.employee_id);
-        const response = await fetch("${import.meta.env.VITE_API_BASE_URL}/agency_app/discussions/", {
+        console.log("Fetching complaints for user:", user?.employeeId);
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/agency_app/discussions/`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
