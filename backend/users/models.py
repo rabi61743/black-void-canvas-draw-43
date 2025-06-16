@@ -1,3 +1,4 @@
+
 # backend/users/models.py
 import uuid
 from django.contrib.auth.models import AbstractUser, BaseUserManager
@@ -10,6 +11,8 @@ class CustomUserManager(BaseUserManager):
         if not email:
             raise ValueError('The Email field must be set')
         email = self.normalize_email(email)
+        # Set username to employee_id to ensure uniqueness
+        extra_fields.setdefault('username', employee_id)
         user = self.model(employee_id=employee_id, email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -59,7 +62,8 @@ class CustomUser(AbstractUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)  # For admin access
     otp_enabled = models.BooleanField(default=False)
-    permissions = models.JSONField(default=list, null=True, blank=True)  # Made optional    reset_token = models.CharField(max_length=100, blank=True)
+    permissions = models.JSONField(default=list, null=True, blank=True)  # Made optional
+    reset_token = models.CharField(max_length=100, blank=True)
 
     objects = CustomUserManager()
 
@@ -72,6 +76,9 @@ class CustomUser(AbstractUser):
     def save(self, *args, **kwargs):
         if not self._id:
             self._id = str(uuid.uuid4())
+        # Ensure username matches employee_id
+        if not self.username or self.username != self.employee_id:
+            self.username = self.employee_id
         super().save(*args, **kwargs)
 
     def get_allowed_roles(self):
