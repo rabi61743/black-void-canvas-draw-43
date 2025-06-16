@@ -4,22 +4,66 @@ import axios from "axios";
 // Base API URL - use VITE_API_BASE_URL from environment variables with proper fallback
 const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
+console.log("API_URL configured as:", API_URL);
+console.log("Environment variables:", {
+  VITE_API_BASE_URL: import.meta.env.VITE_API_BASE_URL,
+  NODE_ENV: import.meta.env.NODE_ENV,
+  MODE: import.meta.env.MODE,
+  DEV: import.meta.env.DEV
+});
+
 // Create axios instance with base URL
 const api = axios.create({
   baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
   },
+  timeout: 10000, // 10 second timeout
 });
 
 // Add request interceptor to add token to requests
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("access_token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+api.interceptors.request.use(
+  (config) => {
+    console.log(`Making ${config.method?.toUpperCase()} request to:`, config.url);
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    console.error("Request interceptor error:", error);
+    return Promise.reject(error);
   }
-  return config;
-});
+);
+
+// Add response interceptor for better error handling
+api.interceptors.response.use(
+  (response) => {
+    console.log(`Response from ${response.config.url}:`, response.status);
+    return response;
+  },
+  (error) => {
+    console.error("API Error:", {
+      message: error.message,
+      code: error.code,
+      status: error.response?.status,
+      url: error.config?.url,
+      baseURL: error.config?.baseURL
+    });
+    
+    // Handle specific error cases
+    if (error.code === 'ECONNREFUSED' || error.code === 'NETWORK_ERROR') {
+      console.error("Backend connection failed - server may be down");
+    }
+    
+    if (error.response?.status === 502) {
+      console.error("502 Bad Gateway - backend server error");
+    }
+    
+    return Promise.reject(error);
+  }
+);
 
 // Interfaces
 interface Document {
