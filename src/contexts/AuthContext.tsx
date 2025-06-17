@@ -82,9 +82,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           console.log("AuthProvider: Attempting to get current user...");
           const response = await authApi.getCurrentUser();
           console.log("AuthProvider: Current user response:", response.data);
-          const userData = response.data;
+          const userData = response.data as User;
           // Ensure both employee_id and employeeId are available for compatibility
-          const userWithCompatibility = {
+          const userWithCompatibility: User = {
             ...userData,
             employeeId: userData.employee_id || userData.employeeId,
             employee_id: userData.employee_id || userData.employeeId
@@ -129,14 +129,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const response = await authApi.login(employeeId, password);
       console.log("AuthProvider: Login response:", response.data);
       
-      const loginData = response.data as { access: string; user: any };
+      const loginData = response.data as { access: string; user: User };
       const { access, user: userData } = loginData;
       
       localStorage.setItem('access_token', access);
       setToken(access);
       
       // Ensure both employee_id and employeeId are available for compatibility
-      const userWithCompatibility = {
+      const userWithCompatibility: User = {
         ...userData,
         employeeId: userData.employee_id || userData.employeeId,
         employee_id: userData.employee_id || userData.employeeId
@@ -193,7 +193,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     
     try {
       const response = await usersApi.getAll();
-      setEmployees(response.data);
+      setEmployees(response.data as UserType[]);
     } catch (error: any) {
       console.error("Error fetching employees:", error);
       setEmployeesError(error.message || "Failed to fetch employees");
