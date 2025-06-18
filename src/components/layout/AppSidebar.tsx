@@ -1,4 +1,3 @@
-
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Home,
@@ -69,7 +68,7 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar className="border-r bg-white shadow-sm" collapsible="icon" variant="sidebar">
+    <Sidebar className="border-r bg-white shadow-sm" collapsible="icon">
       <SidebarHeader className="border-b px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700">
         <h1
           onClick={() => navigate("/")}
