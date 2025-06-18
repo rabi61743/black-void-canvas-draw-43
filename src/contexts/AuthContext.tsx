@@ -86,8 +86,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           // Ensure both employee_id and employeeId are available for compatibility
           const userWithCompatibility: User = {
             ...userData,
-            employeeId: userData.employee_id || userData.employeeId,
-            employee_id: userData.employee_id || userData.employeeId
+            employeeId: userData.employee_id || userData.employeeId || '',
+            employee_id: userData.employee_id || userData.employeeId || ''
           };
           setUser(userWithCompatibility);
           setConnectionError(false);
@@ -138,8 +138,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       // Ensure both employee_id and employeeId are available for compatibility
       const userWithCompatibility: User = {
         ...userData,
-        employeeId: userData.employee_id || userData.employeeId,
-        employee_id: userData.employee_id || userData.employeeId
+        employeeId: userData.employee_id || userData.employeeId || '',
+        employee_id: userData.employee_id || userData.employeeId || ''
       };
       setUser(userWithCompatibility);
       setIsOfflineMode(false);
