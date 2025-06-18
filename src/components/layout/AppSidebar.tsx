@@ -69,11 +69,11 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar className="border-r bg-white shadow-sm" collapsible="icon">
+    <Sidebar className="border-r bg-white shadow-sm" collapsible="icon" variant="sidebar">
       <SidebarHeader className="border-b px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700">
         <h1
           onClick={() => navigate("/")}
-          className="text-lg font-semibold cursor-pointer hover:text-blue-100 text-white truncate"
+          className="text-lg font-semibold cursor-pointer hover:text-blue-100 text-white truncate group-data-[collapsible=icon]:hidden"
         >
           Procurement Portal
         </h1>
