@@ -1,3 +1,4 @@
+
 // api.ts
 import axios from "axios";
 
@@ -127,14 +128,14 @@ interface Comment {
 
 // Authentication API
 export const authApi = {
-  register: (userData: any) => api.post("/auth/register/", userData),
+  register: (userData: any) => api.post("/api/users/register/", userData),
   login: (employee_id: string, password: string) =>
-    api.post("/token/", { employee_id, password }),
-  logout: () => api.post("/auth/logout/"),
-  getCurrentUser: () => api.get("/users/me/"),
-  requestPasswordReset: (email: string) => api.post("/auth/reset-password/", { email }),
+    api.post("/api/token/", { employee_id, password }),
+  logout: () => api.post("/api/users/logout/"),
+  getCurrentUser: () => api.get("/api/users/me/"),
+  requestPasswordReset: (email: string) => api.post("/api/users/reset-password/", { email }),
   confirmPasswordReset: (token: string, uid: string, new_password: string, confirm_password: string) =>
-    api.post("/auth/reset-password-confirm/", { token, uid, new_password, confirm_password }),
+    api.post("/api/users/reset-password-confirm/", { token, uid, new_password, confirm_password }),
 };
 
 // Projects API
@@ -195,9 +196,9 @@ export const documentsApi = {
 
 // Users API
 export const usersApi = {
-  getAll: () => api.get("/users/"),
-  getById: (id: string) => api.get(`/users/${id}/`),
-  create: (userData: any) => api.post("/users/", userData),
-  update: (id: string, userData: any) => api.put(`/users/${id}/`, userData),
-  delete: (id: string) => api.delete(`/users/${id}/`),
+  getAll: () => api.get("/api/users/"),
+  getById: (id: string) => api.get(`/api/users/${id}/`),
+  create: (userData: any) => api.post("/api/users/", userData),
+  update: (id: string, userData: any) => api.put(`/api/users/${id}/`, userData),
+  delete: (id: string) => api.delete(`/api/users/${id}/`),
 };
