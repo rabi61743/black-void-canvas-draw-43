@@ -64,16 +64,16 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <SidebarProvider defaultOpen={true}>
-      <div className="min-h-screen flex w-full">
+      <div className="min-h-screen flex w-full bg-gray-50">
         <AppSidebar />
-        <SidebarInset className="flex-1">
-          <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-white px-4 shadow-sm">
+        <SidebarInset className="flex-1 flex flex-col">
+          <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-white px-4 shadow-sm sticky top-0 z-10">
             <SidebarTrigger className="-ml-1" />
             <div className="flex-1">
               <h1 className="text-lg font-semibold text-gray-900">Procurement Portal</h1>
             </div>
           </header>
-          <main className="flex-1 p-6 bg-gray-50 min-h-[calc(100vh-4rem)]">
+          <main className="flex-1 p-6 overflow-auto">
             {children}
           </main>
         </SidebarInset>
