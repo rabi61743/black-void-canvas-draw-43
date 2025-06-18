@@ -1,8 +1,18 @@
-import { Navigate } from "react-router-dom";
+
+import { Navigate } from 'react-router-dom';
 import { useAuth } from "@/contexts/AuthContext";
 
-export function ProtectedRoute({ children, allowedRoles }: { children: JSX.Element; allowedRoles?: string[] }) {
-  const { isAuthenticated, user } = useAuth();
+interface ProtectedRouteProps {
+  children: JSX.Element;
+  allowedRoles?: string[];
+}
+
+export const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
+  const { isAuthenticated, user, loading } = useAuth();
+
+  if (loading) {
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+  }
 
   if (!isAuthenticated) {
     console.log("ProtectedRoute: Not authenticated, redirecting to /login");
@@ -15,4 +25,4 @@ export function ProtectedRoute({ children, allowedRoles }: { children: JSX.Eleme
   }
 
   return children;
-}
+};
