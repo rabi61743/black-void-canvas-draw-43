@@ -1,3 +1,4 @@
+
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Home,
@@ -68,20 +69,20 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar className="border-r bg-white shadow-sm" collapsible="icon">
-      <SidebarHeader className="border-b px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700">
+    <div className="sidebar-fixed bg-white border-r shadow-sm">
+      <SidebarHeader className="border-b px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 h-16 flex items-center">
         <h1
           onClick={() => navigate("/")}
-          className="text-lg font-semibold cursor-pointer hover:text-blue-100 text-white truncate group-data-[collapsible=icon]:hidden"
+          className="text-lg font-semibold cursor-pointer hover:text-blue-100 text-white truncate"
         >
           Procurement Portal
         </h1>
       </SidebarHeader>
       
-      <SidebarContent className="bg-white">
-        <SidebarGroup>
+      <div className="sidebar-content-area overflow-y-auto">
+        <SidebarGroup className="py-4">
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-2 px-4 py-2">
+            <SidebarMenu className="space-y-2 px-4">
               {navigationItems.map((item) => {
                 const Icon = item.icon;
                 
@@ -152,11 +153,11 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-      </SidebarContent>
+      </div>
 
-      <SidebarFooter className="border-t p-4 bg-white">
+      <div className="sidebar-footer-fixed p-4 bg-white h-16 flex items-center">
         <UserMenu />
-      </SidebarFooter>
-    </Sidebar>
+      </div>
+    </div>
   );
 }
