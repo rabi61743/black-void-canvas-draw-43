@@ -64,7 +64,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <SidebarProvider defaultOpen={true}>
-      <div className="min-h-screen flex w-full bg-gray-50">
+      <div className="min-h-screen flex w-full">
         <AppSidebar />
         <SidebarInset className="flex-1">
           <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-white px-4 shadow-sm">
@@ -73,7 +73,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
               <h1 className="text-lg font-semibold text-gray-900">Procurement Portal</h1>
             </div>
           </header>
-          <main className="flex-1 p-6 bg-white min-h-[calc(100vh-4rem)]">
+          <main className="flex-1 p-6 bg-gray-50 min-h-[calc(100vh-4rem)]">
             {children}
           </main>
         </SidebarInset>
