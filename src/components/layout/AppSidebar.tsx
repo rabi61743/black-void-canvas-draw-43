@@ -69,8 +69,8 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar className="border-r bg-white shadow-sm w-64" collapsible="icon">
-      <SidebarHeader className="border-b px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700">
+    <Sidebar className="border-r bg-white shadow-sm" collapsible="icon">
+      <SidebarHeader className="border-b px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700">
         <h1
           onClick={() => navigate("/")}
           className="text-lg font-semibold cursor-pointer hover:text-blue-100 text-white truncate"
@@ -79,10 +79,10 @@ export function AppSidebar() {
         </h1>
       </SidebarHeader>
       
-      <SidebarContent className="bg-white py-2">
+      <SidebarContent className="bg-white">
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-1 px-3">
+            <SidebarMenu className="space-y-2 px-4 py-2">
               {navigationItems.map((item) => {
                 const Icon = item.icon;
                 
@@ -91,23 +91,23 @@ export function AppSidebar() {
                     <SidebarMenuItem key={item.name}>
                       <SidebarMenuButton
                         onClick={() => setShowCommitteeSubItems(!showCommitteeSubItems)}
-                        className={`w-full hover:bg-blue-50 text-gray-700 hover:text-blue-600 py-2.5 px-3 rounded-lg transition-colors ${
+                        className={`w-full hover:bg-blue-50 text-gray-700 hover:text-blue-600 py-3 px-4 rounded-lg transition-colors ${
                           isActive(item.path) ? "bg-blue-100 text-blue-700" : ""
                         }`}
                       >
-                        <Icon className="h-4 w-4 flex-shrink-0" />
+                        <Icon className="h-5 w-5 flex-shrink-0" />
                         <span className="truncate">{item.name}</span>
                         <ChevronRight className={`ml-auto h-4 w-4 transition-transform flex-shrink-0 ${showCommitteeSubItems ? 'rotate-90' : ''}`} />
                       </SidebarMenuButton>
                       {showCommitteeSubItems && (
-                        <SidebarMenuSub className="mt-1">
+                        <SidebarMenuSub className="mt-2">
                           {item.subItems.map((subItem) => {
                             const SubIcon = subItem.icon;
                             return (
                               <SidebarMenuSubItem key={subItem.path}>
                                 <SidebarMenuSubButton
                                   onClick={() => handleNavigation(subItem.path)}
-                                  className={`hover:bg-blue-50 text-gray-600 hover:text-blue-600 py-2 px-3 rounded-md transition-colors ${
+                                  className={`hover:bg-blue-50 text-gray-600 hover:text-blue-600 py-2.5 px-4 rounded-md transition-colors ${
                                     isActive(subItem.path) ? "bg-blue-100 text-blue-700" : ""
                                   }`}
                                 >
@@ -127,11 +127,11 @@ export function AppSidebar() {
                   <SidebarMenuItem key={item.path}>
                     <SidebarMenuButton
                       onClick={() => handleNavigation(item.path)}
-                      className={`hover:bg-blue-50 text-gray-700 hover:text-blue-600 py-2.5 px-3 rounded-lg transition-colors ${
+                      className={`hover:bg-blue-50 text-gray-700 hover:text-blue-600 py-3 px-4 rounded-lg transition-colors ${
                         isActive(item.path) ? "bg-blue-100 text-blue-700" : ""
                       }`}
                     >
-                      <Icon className="h-4 w-4 flex-shrink-0" />
+                      <Icon className="h-5 w-5 flex-shrink-0" />
                       <span className="truncate">{item.name}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -142,11 +142,11 @@ export function AppSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   onClick={handleExternalAgency}
-                  className={`hover:bg-blue-50 text-gray-700 hover:text-blue-600 py-2.5 px-3 rounded-lg transition-colors ${
+                  className={`hover:bg-blue-50 text-gray-700 hover:text-blue-600 py-3 px-4 rounded-lg transition-colors ${
                     isActive("/complaints") ? "bg-blue-100 text-blue-700" : ""
                   }`}
                 >
-                  <MessageSquare className="h-4 w-4 flex-shrink-0" />
+                  <MessageSquare className="h-5 w-5 flex-shrink-0" />
                   <span className="truncate">External Agency</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -155,7 +155,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t p-3 bg-white">
+      <SidebarFooter className="border-t p-4 bg-white">
         <UserMenu />
       </SidebarFooter>
     </Sidebar>
