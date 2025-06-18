@@ -69,20 +69,20 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar className="border-r bg-white shadow-sm">
-      <SidebarHeader className="border-b px-4 py-4 bg-blue-600">
+    <Sidebar className="border-r bg-white shadow-sm w-64" collapsible="icon">
+      <SidebarHeader className="border-b px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700">
         <h1
           onClick={() => navigate("/")}
-          className="text-lg font-semibold cursor-pointer hover:text-blue-100 text-white"
+          className="text-lg font-semibold cursor-pointer hover:text-blue-100 text-white truncate"
         >
           Procurement Portal
         </h1>
       </SidebarHeader>
       
-      <SidebarContent className="bg-white">
+      <SidebarContent className="bg-white py-2">
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-1 p-2">
+            <SidebarMenu className="space-y-1 px-3">
               {navigationItems.map((item) => {
                 const Icon = item.icon;
                 
@@ -91,28 +91,28 @@ export function AppSidebar() {
                     <SidebarMenuItem key={item.name}>
                       <SidebarMenuButton
                         onClick={() => setShowCommitteeSubItems(!showCommitteeSubItems)}
-                        className={`w-full hover:bg-blue-50 text-gray-700 hover:text-blue-600 ${
+                        className={`w-full hover:bg-blue-50 text-gray-700 hover:text-blue-600 py-2.5 px-3 rounded-lg transition-colors ${
                           isActive(item.path) ? "bg-blue-100 text-blue-700" : ""
                         }`}
                       >
-                        <Icon className="h-4 w-4" />
-                        <span>{item.name}</span>
-                        <ChevronRight className={`ml-auto h-4 w-4 transition-transform ${showCommitteeSubItems ? 'rotate-90' : ''}`} />
+                        <Icon className="h-4 w-4 flex-shrink-0" />
+                        <span className="truncate">{item.name}</span>
+                        <ChevronRight className={`ml-auto h-4 w-4 transition-transform flex-shrink-0 ${showCommitteeSubItems ? 'rotate-90' : ''}`} />
                       </SidebarMenuButton>
                       {showCommitteeSubItems && (
-                        <SidebarMenuSub>
+                        <SidebarMenuSub className="mt-1">
                           {item.subItems.map((subItem) => {
                             const SubIcon = subItem.icon;
                             return (
                               <SidebarMenuSubItem key={subItem.path}>
                                 <SidebarMenuSubButton
                                   onClick={() => handleNavigation(subItem.path)}
-                                  className={`hover:bg-blue-50 text-gray-600 hover:text-blue-600 ${
+                                  className={`hover:bg-blue-50 text-gray-600 hover:text-blue-600 py-2 px-3 rounded-md transition-colors ${
                                     isActive(subItem.path) ? "bg-blue-100 text-blue-700" : ""
                                   }`}
                                 >
-                                  <SubIcon className="h-4 w-4" />
-                                  <span>{subItem.name}</span>
+                                  <SubIcon className="h-4 w-4 flex-shrink-0" />
+                                  <span className="truncate">{subItem.name}</span>
                                 </SidebarMenuSubButton>
                               </SidebarMenuSubItem>
                             );
@@ -127,12 +127,12 @@ export function AppSidebar() {
                   <SidebarMenuItem key={item.path}>
                     <SidebarMenuButton
                       onClick={() => handleNavigation(item.path)}
-                      className={`hover:bg-blue-50 text-gray-700 hover:text-blue-600 ${
+                      className={`hover:bg-blue-50 text-gray-700 hover:text-blue-600 py-2.5 px-3 rounded-lg transition-colors ${
                         isActive(item.path) ? "bg-blue-100 text-blue-700" : ""
                       }`}
                     >
-                      <Icon className="h-4 w-4" />
-                      <span>{item.name}</span>
+                      <Icon className="h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">{item.name}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
@@ -142,12 +142,12 @@ export function AppSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   onClick={handleExternalAgency}
-                  className={`hover:bg-blue-50 text-gray-700 hover:text-blue-600 ${
+                  className={`hover:bg-blue-50 text-gray-700 hover:text-blue-600 py-2.5 px-3 rounded-lg transition-colors ${
                     isActive("/complaints") ? "bg-blue-100 text-blue-700" : ""
                   }`}
                 >
-                  <MessageSquare className="h-4 w-4" />
-                  <span>External Agency</span>
+                  <MessageSquare className="h-4 w-4 flex-shrink-0" />
+                  <span className="truncate">External Agency</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -155,7 +155,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t p-2 bg-white">
+      <SidebarFooter className="border-t p-3 bg-white">
         <UserMenu />
       </SidebarFooter>
     </Sidebar>

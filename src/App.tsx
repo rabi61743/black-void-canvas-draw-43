@@ -63,18 +63,20 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <SidebarProvider defaultOpen={true}>
-      <div className="min-h-screen flex w-full bg-gray-50">
+    <SidebarProvider defaultOpen={false}>
+      <div className="min-h-screen flex w-full bg-slate-50">
         <AppSidebar />
-        <SidebarInset className="flex-1 flex flex-col">
-          <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-white px-4 shadow-sm sticky top-0 z-10">
-            <SidebarTrigger className="-ml-1" />
+        <SidebarInset className="flex-1 flex flex-col ml-0">
+          <header className="flex h-14 shrink-0 items-center gap-3 border-b bg-white px-6 shadow-sm sticky top-0 z-10">
+            <SidebarTrigger className="h-8 w-8 hover:bg-gray-100 rounded-md" />
             <div className="flex-1">
-              <h1 className="text-lg font-semibold text-gray-900">Procurement Portal</h1>
+              <h1 className="text-xl font-semibold text-gray-800">Procurement Portal</h1>
             </div>
           </header>
-          <main className="flex-1 p-6 overflow-auto">
-            {children}
+          <main className="flex-1 p-8 overflow-auto bg-slate-50">
+            <div className="max-w-7xl mx-auto">
+              {children}
+            </div>
           </main>
         </SidebarInset>
       </div>
