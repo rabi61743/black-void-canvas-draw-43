@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { AlertCircle, Wifi, WifiOff } from "lucide-react";
+import { AlertCircle, Wifi, WifiOff, FileText, Users, MessageSquare, UserPlus, FolderOpen, TrendingUp, Clock, CheckCircle } from "lucide-react";
 
 export default function Index() {
   const navigate = useNavigate();
@@ -14,7 +14,8 @@ export default function Index() {
     return (
       <div className="container mx-auto p-8 mt-16">
         <div className="flex items-center justify-center">
-          <div className="text-lg">Loading...</div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="text-lg ml-3">Loading...</div>
         </div>
       </div>
     );
@@ -65,91 +66,215 @@ export default function Index() {
 
   if (!isAuthenticated) {
     return (
-      <div className="container mx-auto p-8 mt-16">
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="flex justify-center mb-4">
-            <Wifi className="h-16 w-16 text-blue-500" />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+        <div className="container mx-auto p-8 pt-20">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="flex justify-center mb-6">
+              <div className="relative">
+                <div className="absolute inset-0 bg-blue-500 rounded-full animate-pulse opacity-20"></div>
+                <Wifi className="h-20 w-20 text-blue-600 relative z-10" />
+              </div>
+            </div>
+            <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Welcome to the Procurement Portal
+            </h1>
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              Streamline your procurement processes with our comprehensive management system. 
+              Access tenders, manage committees, and track procurement plans efficiently.
+            </p>
+            <div className="flex justify-center space-x-4 mb-12">
+              <div className="flex items-center space-x-2 text-green-600">
+                <CheckCircle className="h-5 w-5" />
+                <span>Secure</span>
+              </div>
+              <div className="flex items-center space-x-2 text-blue-600">
+                <TrendingUp className="h-5 w-5" />
+                <span>Efficient</span>
+              </div>
+              <div className="flex items-center space-x-2 text-purple-600">
+                <Clock className="h-5 w-5" />
+                <span>Real-time</span>
+              </div>
+            </div>
+            <Button onClick={() => navigate("/login")} size="lg" className="px-8 py-3 text-lg">
+              Get Started
+            </Button>
           </div>
-          <h1 className="text-3xl font-bold mb-6">Welcome to the Procurement Portal</h1>
-          <p className="text-gray-600 mb-6">Please log in to access the system.</p>
-          <Button onClick={() => navigate("/login")} size="lg">Go to Login</Button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto p-8 mt-16">
-      <h1 className="text-3xl font-bold mb-6">Welcome to the Procurement Portal</h1>
-      
-      {user && (
-        <div className="mb-6 p-4 bg-blue-50 rounded-lg">
-          <p className="text-sm text-gray-600">Logged in as: <span className="font-semibold">{user.email || user.employeeId}</span></p>
-          <p className="text-sm text-gray-600">Role: <span className="font-semibold">{user.role?.role_name || 'N/A'}</span></p>
-        </div>
-      )}
-
-      {isOfflineMode && (
-        <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-          <div className="flex items-center gap-2">
-            <WifiOff className="h-5 w-5 text-yellow-600" />
-            <p className="text-yellow-800 font-medium">Offline Mode</p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
+      <div className="container mx-auto p-8 pt-12">
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <div className="inline-block px-4 py-2 mb-4 text-sm font-medium text-blue-600 bg-blue-100 rounded-full">
+            Dashboard Overview
           </div>
-          <p className="text-yellow-700 text-sm">Some features may be limited while the server is unavailable.</p>
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+            Welcome to the Procurement Portal
+          </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Manage your procurement processes efficiently with our comprehensive dashboard
+          </p>
         </div>
-      )}
-
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <div className="border p-6 rounded-lg shadow-sm">
-          <h2 className="text-xl font-semibold mb-2">Manage Procurement Plan</h2>
-          <p className="text-gray-600 mb-4">Create and track plans.</p>
-          <Button onClick={() => navigate("/procurement-plan")} disabled={isOfflineMode}>
-            Go to Procurement Plan
-          </Button>
-        </div>
-
-        <div className="border p-6 rounded-lg shadow-sm">
-          <h2 className="text-xl font-semibold mb-2">View Tenders</h2>
-          <p className="text-gray-600 mb-4">Browse and manage all tenders.</p>
-          <Button onClick={() => navigate("/tenders")} disabled={isOfflineMode}>
-            Go to Tenders
-          </Button>
-        </div>
-
-        <div className="border p-6 rounded-lg shadow-sm">
-          <h2 className="text-xl font-semibold mb-2">Manage Committees</h2>
-          <p className="text-gray-600 mb-4">Create or view committees.</p>
-          <Button onClick={() => navigate("/committee")} disabled={isOfflineMode}>
-            Go to Committee
-          </Button>
-        </div>
-
-        <div className="border p-6 rounded-lg shadow-sm">
-          <h2 className="text-xl font-semibold mb-2">External Agency</h2>
-          <p className="text-gray-600 mb-4">Submit and track complaints.</p>
-          <Button onClick={() => navigate("/complaints")} disabled={isOfflineMode}>
-            Go to External Agency
-          </Button>
-        </div>
-
-        <div className="border p-6 rounded-lg shadow-sm">
-          <h2 className="text-xl font-semibold mb-2">View Employees</h2>
-          <p className="text-gray-600 mb-4">View All Employees.</p>
-          <Button onClick={() => navigate("/employee-details")} disabled={isOfflineMode}>
-            Go to Employee
-          </Button>
-        </div>
-
-        {/* Show only if user is SUPERADMIN */}
-        {user?.role?.role_name === "Superadmin" && (
-          <div className="border p-6 rounded-lg shadow-sm">
-            <h2 className="text-xl font-semibold mb-2">Create User</h2>
-            <p className="text-gray-600 mb-4">Register a new user in the system.</p>
-            <Button onClick={() => navigate("/create-user")} disabled={isOfflineMode}>
-              Go to Register
-            </Button>
+        
+        {/* User Info Card */}
+        {user && (
+          <div className="mb-8 max-w-2xl mx-auto">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-semibold text-lg">
+                  {user.email ? user.email.charAt(0).toUpperCase() : user.employeeId.charAt(0)}
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Logged in as</p>
+                  <p className="font-semibold text-gray-900">{user.email || user.employeeId}</p>
+                  <p className="text-sm text-blue-600 font-medium">{user.role?.role_name || 'N/A'}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
+
+        {/* Offline Mode Alert */}
+        {isOfflineMode && (
+          <div className="mb-8 max-w-2xl mx-auto">
+            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+              <div className="flex items-center gap-3">
+                <WifiOff className="h-5 w-5 text-yellow-600" />
+                <div>
+                  <p className="text-yellow-800 font-medium">Offline Mode</p>
+                  <p className="text-yellow-700 text-sm">Some features may be limited while the server is unavailable.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Navigation Cards Grid */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+          <div className="group bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                <FileText className="h-6 w-6 text-green-600" />
+              </div>
+              <h2 className="text-xl font-semibold text-gray-900">Procurement Plan</h2>
+            </div>
+            <p className="text-gray-600 mb-6">Create and track procurement plans with detailed timelines and requirements.</p>
+            <Button 
+              onClick={() => navigate("/procurement-plan")} 
+              disabled={isOfflineMode}
+              className="w-full group-hover:bg-green-600 transition-colors"
+            >
+              Manage Plans
+            </Button>
+          </div>
+
+          <div className="group bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                <FolderOpen className="h-6 w-6 text-blue-600" />
+              </div>
+              <h2 className="text-xl font-semibold text-gray-900">Tenders</h2>
+            </div>
+            <p className="text-gray-600 mb-6">Browse, create, and manage all tender processes from initiation to completion.</p>
+            <Button 
+              onClick={() => navigate("/tenders")} 
+              disabled={isOfflineMode}
+              variant="outline"
+              className="w-full group-hover:border-blue-600 group-hover:text-blue-600 transition-colors"
+            >
+              View Tenders
+            </Button>
+          </div>
+
+          <div className="group bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+                <Users className="h-6 w-6 text-purple-600" />
+              </div>
+              <h2 className="text-xl font-semibold text-gray-900">Committees</h2>
+            </div>
+            <p className="text-gray-600 mb-6">Create evaluation committees and manage member assignments efficiently.</p>
+            <Button 
+              onClick={() => navigate("/committee")} 
+              disabled={isOfflineMode}
+              variant="outline"
+              className="w-full group-hover:border-purple-600 group-hover:text-purple-600 transition-colors"
+            >
+              Manage Committees
+            </Button>
+          </div>
+
+          <div className="group bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center group-hover:bg-orange-200 transition-colors">
+                <MessageSquare className="h-6 w-6 text-orange-600" />
+              </div>
+              <h2 className="text-xl font-semibold text-gray-900">External Agency</h2>
+            </div>
+            <p className="text-gray-600 mb-6">Submit and track complaints and communications with external agencies.</p>
+            <Button 
+              onClick={() => navigate("/complaints")} 
+              disabled={isOfflineMode}
+              variant="outline"
+              className="w-full group-hover:border-orange-600 group-hover:text-orange-600 transition-colors"
+            >
+              View Complaints
+            </Button>
+          </div>
+
+          <div className="group bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center group-hover:bg-indigo-200 transition-colors">
+                <Users className="h-6 w-6 text-indigo-600" />
+              </div>
+              <h2 className="text-xl font-semibold text-gray-900">Employees</h2>
+            </div>
+            <p className="text-gray-600 mb-6">View and manage employee information and organizational structure.</p>
+            <Button 
+              onClick={() => navigate("/employee-details")} 
+              disabled={isOfflineMode}
+              variant="outline"
+              className="w-full group-hover:border-indigo-600 group-hover:text-indigo-600 transition-colors"
+            >
+              View Employees
+            </Button>
+          </div>
+
+          {/* Show only if user is SUPERADMIN */}
+          {user?.role?.role_name === "Superadmin" && (
+            <div className="group bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center group-hover:bg-red-200 transition-colors">
+                  <UserPlus className="h-6 w-6 text-red-600" />
+                </div>
+                <h2 className="text-xl font-semibold text-gray-900">Create User</h2>
+              </div>
+              <p className="text-gray-600 mb-6">Register new users and assign roles within the procurement system.</p>
+              <Button 
+                onClick={() => navigate("/create-user")} 
+                disabled={isOfflineMode}
+                variant="outline"
+                className="w-full group-hover:border-red-600 group-hover:text-red-600 transition-colors"
+              >
+                Register User
+              </Button>
+            </div>
+          )}
+        </div>
+
+        {/* Footer Section */}
+        <div className="mt-16 text-center">
+          <div className="max-w-2xl mx-auto">
+            <p className="text-gray-500 text-sm">
+              Need help? Contact your system administrator or refer to the user documentation.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
