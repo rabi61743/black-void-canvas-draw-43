@@ -1,5 +1,4 @@
 
-
 /* Custom styles for the fixed sidebar layout */
 .sidebar-layout {
   display: flex;
@@ -42,6 +41,75 @@
   width: calc(100% - 250px);
 }
 
+/* Enterprise Header Bar */
+.enterprise-header-bar {
+  display: flex;
+  height: 56px;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  background: white;
+  padding: 0 1.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Enterprise Main Content */
+.enterprise-main-content {
+  flex: 1;
+  background: #f8fafc;
+  overflow: auto;
+  padding: 1.5rem;
+}
+
+/* Enterprise Dashboard Styles */
+.enterprise-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: none;
+  width: 100%;
+}
+
+.enterprise-header {
+  margin-bottom: 1rem;
+}
+
+.enterprise-user-info {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.enterprise-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.enterprise-nav-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.enterprise-nav-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.enterprise-footer {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  text-align: center;
+}
+
 /* Responsive behavior for mobile */
 @media (max-width: 768px) {
   .main-content-offset {
@@ -56,6 +124,27 @@
   
   .sidebar-fixed.sidebar-open {
     transform: translateX(0);
+  }
+
+  .enterprise-nav-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .enterprise-main-content {
+    padding: 1rem;
+  }
+}
+
+/* Large screen optimizations */
+@media (min-width: 1440px) {
+  .enterprise-nav-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1920px) {
+  .enterprise-nav-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -80,4 +169,3 @@
 .dashboard-content .table-section {
   margin-bottom: 1rem;
 }
-

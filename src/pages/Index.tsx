@@ -22,7 +22,6 @@ export default function Index() {
     );
   }
 
-  // Show connection error state
   if (connectionError) {
     return <ConnectionError />;
   }
@@ -32,7 +31,7 @@ export default function Index() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="enterprise-dashboard">
       <WelcomeHeader />
       
       {user && <UserInfoCard user={user} />}
