@@ -25,8 +25,10 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
       <div className="min-h-screen flex w-full">
         <AppSidebar />
         <SidebarInset className="flex-1 min-w-0">
-          <main className="h-full bg-gray-50 p-6">
-            {children}
+          <main className="h-full bg-gray-50 p-6 w-full">
+            <div className="max-w-7xl mx-auto">
+              {children}
+            </div>
           </main>
         </SidebarInset>
       </div>

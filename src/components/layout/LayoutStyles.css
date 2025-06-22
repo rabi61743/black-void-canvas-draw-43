@@ -18,6 +18,8 @@
   gap: 1.5rem;
   max-width: none;
   width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .enterprise-header {
@@ -82,7 +84,8 @@
 
 /* Dashboard specific styling for compact layout */
 .dashboard-content {
-  padding: 1rem 1.5rem;
+  padding: 0;
+  width: 100%;
 }
 
 .dashboard-content .card {
@@ -102,12 +105,14 @@
   margin-bottom: 1rem;
 }
 
-/* Override any default sidebar spacing */
+/* Sidebar layout fixes */
 [data-sidebar="sidebar"] {
   border-right: 1px solid #e5e7eb;
 }
 
-/* Ensure main content takes full width */
+/* Ensure main content takes proper space */
 [data-sidebar="inset"] {
-  margin-left: 0 !important;
+  flex: 1;
+  min-width: 0;
+  width: 100%;
 }
