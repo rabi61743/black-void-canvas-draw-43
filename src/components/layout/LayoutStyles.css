@@ -104,41 +104,57 @@
   margin-bottom: 1rem;
 }
 
-/* Sidebar layout responsive fixes */
+/* Sidebar layout fixes */
 [data-sidebar="sidebar"] {
   border-right: 1px solid #e5e7eb;
   transition: width 0.2s ease-in-out;
+  flex-shrink: 0;
 }
 
-/* Ensure main content is responsive to sidebar state */
+/* Main content area - ensure it takes remaining space */
 [data-sidebar="inset"] {
   flex: 1;
   min-width: 0;
-  width: 100%;
-  transition: margin-left 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Ensure content doesn't overflow */
+/* Ensure main element uses full height and allows scrolling */
 [data-sidebar="inset"] main {
-  height: calc(100vh - 4rem); /* Account for header height */
+  flex: 1;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Handle zoom responsiveness */
-@media (min-width: 768px) {
+/* Fix for mobile sidebar behavior */
+@media (max-width: 768px) {
   [data-sidebar="sidebar"] {
-    position: sticky;
-    top: 0;
+    position: fixed;
+    z-index: 50;
     height: 100vh;
+  }
+  
+  [data-sidebar="inset"] {
+    width: 100%;
   }
 }
 
-/* Responsive text in collapsed sidebar */
-.group-data-\[collapsible\=icon\]\:hidden {
-  transition: opacity 0.2s ease-in-out;
+/* Zoom responsiveness - prevent overlapping */
+@media (min-width: 768px) {
+  .min-h-screen.flex.w-full {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+  }
 }
 
-/* Ensure tooltips work properly in collapsed state */
-[data-sidebar="menu-button"][data-size="default"] {
-  min-height: 2.5rem;
+/* Remove any conflicting max-width constraints */
+.max-w-\[1400px\] {
+  max-width: none !important;
+}
+
+/* Ensure content scales properly */
+* {
+  box-sizing: border-box;
 }
