@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { useAuth } from "@/contexts/AuthContext";
-import { AppSidebar } from "./AppSidebar";
 import './LayoutStyles.css';
 
 interface MainLayoutProps {
@@ -20,9 +19,8 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
   }
 
   return (
-    <div className="min-h-screen w-full flex">
-      <AppSidebar />
-      <main className="flex-1 bg-gray-50 p-6">
+    <div className="min-h-screen w-full">
+      <main className="h-full bg-gray-50 p-6">
         <div className="max-w-7xl mx-auto">
           {children}
         </div>
