@@ -11,14 +11,6 @@
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-/* Enterprise Main Content */
-.enterprise-main-content {
-  flex: 1;
-  background: #f8fafc;
-  overflow: auto;
-  padding: 1.5rem;
-}
-
 /* Enterprise Dashboard Styles */
 .enterprise-dashboard {
   display: flex;
@@ -72,10 +64,6 @@
 @media (max-width: 768px) {
   .enterprise-nav-grid {
     grid-template-columns: 1fr;
-  }
-
-  .enterprise-main-content {
-    padding: 1rem;
   }
 }
 

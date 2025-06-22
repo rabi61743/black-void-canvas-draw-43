@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import { useAuth } from "@/contexts/AuthContext";
 import './LayoutStyles.css';
@@ -24,8 +24,8 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
     <SidebarProvider defaultOpen={true}>
       <div className="min-h-screen flex w-full">
         <AppSidebar />
-        <SidebarInset>
-          <main className="enterprise-main-content">
+        <SidebarInset className="flex-1">
+          <main className="flex-1 bg-gray-50 overflow-auto p-6">
             {children}
           </main>
         </SidebarInset>
