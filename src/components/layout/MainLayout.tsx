@@ -22,17 +22,17 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
 
   return (
     <SidebarProvider defaultOpen={true}>
-      <div className="min-h-screen flex w-full">
+      <div className="flex min-h-screen w-full overflow-hidden">
         <AppSidebar />
-        <SidebarInset className="flex-1 flex flex-col">
-          <header className="flex h-16 shrink-0 items-center gap-2 px-4 border-b border-l-0 bg-white">
+        <SidebarInset className="flex-1 min-w-0 flex flex-col">
+          <header className="flex h-16 shrink-0 items-center gap-2 px-4 border-b bg-white">
             <SidebarTrigger className="-ml-1" />
             <div className="ml-2 font-semibold text-gray-900">
               Procurement Portal
             </div>
           </header>
-          <main className="flex-1 bg-gray-50 p-6 overflow-auto">
-            <div className="h-full w-full max-w-none">
+          <main className="flex-1 min-w-0 bg-gray-50 p-6 overflow-y-auto">
+            <div className="h-full w-full">
               {children}
             </div>
           </main>
