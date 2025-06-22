@@ -104,27 +104,34 @@
   margin-bottom: 1rem;
 }
 
-/* Sidebar layout fixes */
+/* Sidebar layout fixes - Remove gap between sidebar and main content */
 [data-sidebar="sidebar"] {
   border-right: 1px solid #e5e7eb;
   transition: width 0.2s ease-in-out;
   flex-shrink: 0;
 }
 
-/* Main content area - ensure it takes remaining space */
+/* Main content area - ensure it takes remaining space with no gap */
 [data-sidebar="inset"] {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
+  margin-left: 0;
+  padding-left: 0;
 }
 
-/* Ensure main element uses full height and allows scrolling */
+/* Ensure main element uses full height and connects to sidebar */
 [data-sidebar="inset"] main {
   flex: 1;
   overflow: auto;
   display: flex;
   flex-direction: column;
+}
+
+/* Remove any spacing from the SidebarProvider container */
+.group\/sidebar-wrapper {
+  gap: 0 !important;
 }
 
 /* Fix for mobile sidebar behavior */
@@ -146,6 +153,7 @@
     display: flex;
     min-height: 100vh;
     width: 100%;
+    gap: 0;
   }
 }
 

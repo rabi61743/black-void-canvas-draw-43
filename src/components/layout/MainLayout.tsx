@@ -25,7 +25,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
       <div className="min-h-screen flex w-full">
         <AppSidebar />
         <SidebarInset className="flex-1 flex flex-col">
-          <header className="flex h-16 shrink-0 items-center gap-2 px-4 border-b bg-white">
+          <header className="flex h-16 shrink-0 items-center gap-2 px-4 border-b border-l-0 bg-white">
             <SidebarTrigger className="-ml-1" />
             <div className="ml-2 font-semibold text-gray-900">
               Procurement Portal
