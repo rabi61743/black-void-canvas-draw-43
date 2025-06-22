@@ -17,6 +17,7 @@
   flex-direction: column;
   gap: 1.5rem;
   width: 100%;
+  min-height: 0;
 }
 
 .enterprise-header {
@@ -82,6 +83,8 @@
 /* Dashboard specific styling for compact layout */
 .dashboard-content {
   width: 100%;
+  height: 100%;
+  overflow: auto;
 }
 
 .dashboard-content .card {
@@ -101,14 +104,41 @@
   margin-bottom: 1rem;
 }
 
-/* Sidebar layout fixes */
+/* Sidebar layout responsive fixes */
 [data-sidebar="sidebar"] {
   border-right: 1px solid #e5e7eb;
+  transition: width 0.2s ease-in-out;
 }
 
-/* Ensure main content takes proper space */
+/* Ensure main content is responsive to sidebar state */
 [data-sidebar="inset"] {
   flex: 1;
   min-width: 0;
   width: 100%;
+  transition: margin-left 0.2s ease-in-out;
+}
+
+/* Ensure content doesn't overflow */
+[data-sidebar="inset"] main {
+  height: calc(100vh - 4rem); /* Account for header height */
+  overflow: auto;
+}
+
+/* Handle zoom responsiveness */
+@media (min-width: 768px) {
+  [data-sidebar="sidebar"] {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+  }
+}
+
+/* Responsive text in collapsed sidebar */
+.group-data-\[collapsible\=icon\]\:hidden {
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Ensure tooltips work properly in collapsed state */
+[data-sidebar="menu-button"][data-size="default"] {
+  min-height: 2.5rem;
 }

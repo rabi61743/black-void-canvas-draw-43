@@ -25,6 +25,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { UserMenu } from "./UserMenu";
 import { NavigationItem } from "@/types/navigation";
@@ -33,6 +34,7 @@ import { useState } from "react";
 export function AppSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { state } = useSidebar();
   const [showCommitteeSubItems, setShowCommitteeSubItems] = useState(false);
 
   const navigationItems: NavigationItem[] = [
@@ -68,14 +70,18 @@ export function AppSidebar() {
     navigate("/complaints");
   };
 
+  const isCollapsed = state === "collapsed";
+
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarHeader className="border-b px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 h-16 flex items-center">
         <h1
           onClick={() => navigate("/")}
-          className="text-lg font-semibold cursor-pointer hover:text-blue-100 text-white truncate"
+          className={`font-semibold cursor-pointer hover:text-blue-100 text-white transition-all duration-200 ${
+            isCollapsed ? "text-sm" : "text-lg"
+          }`}
         >
-          Procurement Portal
+          {isCollapsed ? "PP" : "Procurement Portal"}
         </h1>
       </SidebarHeader>
       
@@ -86,7 +92,7 @@ export function AppSidebar() {
               {navigationItems.map((item) => {
                 const Icon = item.icon;
                 
-                if (item.subItems) {
+                if (item.subItems && !isCollapsed) {
                   return (
                     <SidebarMenuItem key={item.name}>
                       <SidebarMenuButton
@@ -130,9 +136,10 @@ export function AppSidebar() {
                       className={`hover:bg-blue-50 text-gray-700 hover:text-blue-600 py-3 px-4 rounded-lg transition-colors ${
                         isActive(item.path) ? "bg-blue-100 text-blue-700" : ""
                       }`}
+                      tooltip={isCollapsed ? item.name : undefined}
                     >
                       <Icon className="h-5 w-5 flex-shrink-0" />
-                      <span className="truncate">{item.name}</span>
+                      {!isCollapsed && <span className="truncate">{item.name}</span>}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
@@ -145,9 +152,10 @@ export function AppSidebar() {
                   className={`hover:bg-blue-50 text-gray-700 hover:text-blue-600 py-3 px-4 rounded-lg transition-colors ${
                     isActive("/complaints") ? "bg-blue-100 text-blue-700" : ""
                   }`}
+                  tooltip={isCollapsed ? "External Agency" : undefined}
                 >
                   <MessageSquare className="h-5 w-5 flex-shrink-0" />
-                  <span className="truncate">External Agency</span>
+                  {!isCollapsed && <span className="truncate">External Agency</span>}
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
