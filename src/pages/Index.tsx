@@ -31,7 +31,7 @@ export default function Index() {
   }
 
   return (
-    <div className="enterprise-dashboard">
+    <div className="flex flex-col gap-6 w-full">
       <WelcomeHeader />
       
       {user && <UserInfoCard user={user} />}
