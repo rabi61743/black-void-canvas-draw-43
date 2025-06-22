@@ -1,47 +1,4 @@
 
-/* Custom styles for the fixed sidebar layout */
-.sidebar-layout {
-  display: flex;
-  min-height: 100vh;
-  width: 100%;
-  gap: 0; /* Ensure no gap between sidebar and content */
-}
-
-.sidebar-fixed {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 250px;
-  height: 100vh;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  background: white;
-  border-right: 1px solid #e5e7eb;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-}
-
-.sidebar-content-area {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.sidebar-footer-fixed {
-  margin-top: auto;
-  border-top: 1px solid #e5e7eb;
-}
-
-.main-content-offset {
-  margin-left: 250px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  width: calc(100% - 250px);
-}
-
 /* Enterprise Header Bar */
 .enterprise-header-bar {
   display: flex;
@@ -113,20 +70,6 @@
 
 /* Responsive behavior for mobile */
 @media (max-width: 768px) {
-  .main-content-offset {
-    margin-left: 0;
-    width: 100%;
-  }
-  
-  .sidebar-fixed {
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .sidebar-fixed.sidebar-open {
-    transform: translateX(0);
-  }
-
   .enterprise-nav-grid {
     grid-template-columns: 1fr;
   }

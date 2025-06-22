@@ -22,9 +22,9 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
 
   return (
     <SidebarProvider defaultOpen={true}>
-      <div className="sidebar-layout">
+      <div className="min-h-screen flex w-full">
         <AppSidebar />
-        <div className="main-content-offset">
+        <SidebarInset>
           <header className="enterprise-header-bar">
             <SidebarTrigger className="h-8 w-8 hover:bg-gray-100 rounded-md transition-colors md:hidden" />
             <div className="flex-1">
@@ -34,7 +34,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
           <main className="enterprise-main-content">
             {children}
           </main>
-        </div>
+        </SidebarInset>
       </div>
     </SidebarProvider>
   );

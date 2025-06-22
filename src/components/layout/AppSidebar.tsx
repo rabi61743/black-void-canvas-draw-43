@@ -69,7 +69,7 @@ export function AppSidebar() {
   };
 
   return (
-    <div className="sidebar-fixed bg-white border-r shadow-sm">
+    <Sidebar>
       <SidebarHeader className="border-b px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 h-16 flex items-center">
         <h1
           onClick={() => navigate("/")}
@@ -79,7 +79,7 @@ export function AppSidebar() {
         </h1>
       </SidebarHeader>
       
-      <div className="sidebar-content-area overflow-y-auto">
+      <SidebarContent className="overflow-y-auto">
         <SidebarGroup className="py-4">
           <SidebarGroupContent>
             <SidebarMenu className="space-y-2 px-4">
@@ -153,11 +153,11 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-      </div>
+      </SidebarContent>
 
-      <div className="sidebar-footer-fixed p-4 bg-white h-16 flex items-center">
+      <SidebarFooter className="p-4 bg-white h-16 flex items-center border-t">
         <UserMenu />
-      </div>
-    </div>
+      </SidebarFooter>
+    </Sidebar>
   );
 }
