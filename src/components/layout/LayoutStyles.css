@@ -101,3 +101,13 @@
 .dashboard-content .table-section {
   margin-bottom: 1rem;
 }
+
+/* Override any default sidebar spacing */
+[data-sidebar="sidebar"] {
+  border-right: 1px solid #e5e7eb;
+}
+
+/* Ensure main content takes full width */
+[data-sidebar="inset"] {
+  margin-left: 0 !important;
+}
