@@ -31,16 +31,18 @@ export default function Index() {
   }
 
   return (
-    <div className="flex flex-col gap-6 w-full">
-      <WelcomeHeader />
-      
-      {user && <UserInfoCard user={user} />}
+    <div className="p-6 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-6 w-full">
+        <WelcomeHeader />
+        
+        {user && <UserInfoCard user={user} />}
 
-      {isOfflineMode && <OfflineAlert />}
+        {isOfflineMode && <OfflineAlert />}
 
-      <NavigationCards user={user} isOfflineMode={isOfflineMode} />
+        <NavigationCards user={user} isOfflineMode={isOfflineMode} />
 
-      <DashboardFooter />
+        <DashboardFooter />
+      </div>
     </div>
   );
 }
