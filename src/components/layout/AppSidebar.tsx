@@ -73,7 +73,7 @@ export function AppSidebar() {
   const isCollapsed = state === "collapsed";
 
   return (
-    <Sidebar collapsible="icon" className="border-r">
+    <Sidebar collapsible="icon" className="border-r border-gray-200">
       <SidebarHeader className="border-b px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 h-16 flex items-center">
         <h1
           onClick={() => navigate("/")}
